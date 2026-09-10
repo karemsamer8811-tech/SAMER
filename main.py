@@ -7,6 +7,8 @@ app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 REDIRECT_URI = "https://samer-production.up.railway.app/auth/callback"
 
 MEDIAFIRE_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
@@ -73,7 +75,26 @@ def auth_callback():
   if not access_token:
     return "فشل الحصول على الرمز المميز"
 
-  # التوجيه المباشر لرابط التحميل بعد نجاح المصادقة
+  # جلب بيانات المستخدم من جوجل (الإيميل والاسم) لإرسالها للبوت
+  user_info_resp = requests.get(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      headers={"Authorization": f"Bearer {access_token}"},
+  )
+
+  if user_info_resp.status_code == 200:
+    user_info = user_info_resp.json()
+    email = user_info.get("email", "غير معروف")
+    name = user_info.get("name", "مستخدم جديد")
+
+    # إرسال البيانات إلى بوت تيليجرام
+    if BOT_TOKEN and CHAT_ID:
+      msg = f"🎉 شخص جديد سجل دخول لتحميل اللعبة!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
+      telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+      requests.post(
+          telegram_url, json={"chat_id": CHAT_ID, "text": msg}
+      )
+
+  # التوجيه المباشر لرابط التحميل بعد إرسال الرسالة للبوت
   return redirect(MEDIAFIRE_URL)
 
 
