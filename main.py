@@ -5,7 +5,6 @@ from flask import Flask, redirect, render_template_string, request, session, url
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 
-# قراءة المفاتيح بأمان من متغيرات البيئة (Environment Variables)
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 REDIRECT_URI = "https://samer-production.up.railway.app/auth/callback"
@@ -109,4 +108,5 @@ def auth_callback():
 
 
 if __name__ == "__main__":
-  app.run(host="0.0.0.0", port=int(os.environ.com("PORT", 5000) if "PORT" in os.environ else 5000))
+  port = int(os.environ.get("PORT", 5000))
+  app.run(host="0.0.0.0", port=port)
