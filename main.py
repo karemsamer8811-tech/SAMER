@@ -60,7 +60,17 @@ def login():
         
         .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
-        .insta-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 50px; margin-bottom: 25px; color: #262626; font-weight: normal; letter-spacing: 1px; }
+        /* شعار انستغرام ملون بتدرج الألوان الشهير */
+        .insta-logo { 
+            font-family: 'Billabong', cursive, sans-serif; 
+            font-size: 52px; 
+            margin-bottom: 25px; 
+            font-weight: normal; 
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         .error-msg { color: #ed4956; font-size: 13px; line-height: 16px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
 
@@ -77,16 +87,15 @@ def login():
 
         .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 500; }
 
-        /* تذييل الصفحة (Meta والشعار السفلي) */
+        /* تذييل الصفحة */
         .footer-section { width: 100%; padding-bottom: 20px; text-align: center; }
         
         .meta-footer { margin-bottom: 12px; }
-        .meta-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; }
+        .meta-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; direction: ltr; }
         .meta-logo span:nth-child(1) { color: #0081FB; }
         .meta-logo span:nth-child(2) { color: #0092FA; }
         .meta-logo span:nth-child(3) { color: #00A3F6; }
         .meta-logo span:nth-child(4) { color: #00B4F0; }
-        .meta-logo span:nth-child(5) { color: #00C5EA; }
 
         .signup-card { padding: 12px; font-size: 14px; color: #262626; border-top: 1px solid #dbdbdb; width: 100%; }
         .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
@@ -98,7 +107,7 @@ def login():
         
         {% if error %}
             <div class="error-msg">{{ error }}</div>
-        {% endif %}
+    {% endif %}
 
         <form method="POST">
             <div class="input-group">
