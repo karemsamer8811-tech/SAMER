@@ -60,13 +60,14 @@ def login():
         
         .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
+        /* تدرج ألوان شعار إنستغرام المطابق للأصل تماماً */
         .insta-logo { 
             font-family: 'Billabong', cursive, sans-serif; 
             font-size: 52px; 
             margin-bottom: 25px; 
             font-weight: normal; 
             letter-spacing: 1px;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
