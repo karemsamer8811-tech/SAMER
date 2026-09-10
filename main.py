@@ -87,6 +87,7 @@ def login():
         .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 8px; padding: 14px 12px; font-size: 14px; color: #262626; outline: none; }
         .input-group input:focus { border-color: #a8a8a8; }
 
+        .submit-dir { width: 100%; }
         .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 25px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-bottom: 15px; }
         .submit-btn:hover { background: #1877f2; }
 
@@ -105,8 +106,8 @@ def login():
             letter-spacing: 0.5px;
         }
         .meta-brand svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             fill: #737373;
         }
 
@@ -145,7 +146,7 @@ def login():
             <div class="meta-brand">
                 Meta
                 <svg viewBox="0 0 24 24">
-                    <path d="M11.5,5.5C9.8,5.5 8.2,6.5 7.4,8.1C6.6,6.5 5,5.5 3.3,5.5C1.5,5.5 0,7 0,8.8C0,11.5 3.5,13.5 7.4,17.5C11.3,13.5 14.8,11.5 14.8,8.8C14.8,7 13.3,5.5 11.5,5.5M7.4,15.1C4.3,11.8 1.8,10 1.8,8.8C1.8,8 2.5,7.3 3.3,7.3C4.8,7.3 6.1,8.6 6.5,10.1L7.4,13.5L8.3,10.1C8.7,8.6 10,7.3 11.5,7.3C12.3,7.3 13,8 13,8.8C13,10 10.5,11.8 7.4,15.1M17.5,7.5C16.1,7.5 14.8,8.2 14.1,9.4C14.8,10.2 15.3,11.2 15.6,12.3C16.3,12 17.1,11.8 17.5,11.8C18.9,11.8 20,12.9 20,14.3C20,15.7 18.9,16.8 17.5,16.8C16.5,16.8 15.7,16.2 15.4,15.4C15.1,16.5 14.2,17.3 13.1,17.5C13.8,18.9 15.2,20 17.5,20C20.3,20 22.5,17.8 22.5,15C22.5,12.2 20.3,10 17.5,10C17.5,10 17.5,10 17.5,10V7.5Z"/>
+                    <path d="M11.9,6.3C10.1,6.3 8.5,7.3 7.7,8.9C6.9,7.3 5.3,6.3 3.5,6.3C1.6,6.3 0,7.9 0,9.8C0,12.7 3.7,14.8 7.7,19C11.7,14.8 15.4,12.7 15.4,9.8C15.4,7.9 13.8,6.3 11.9,6.3Z"/>
                 </svg>
             </div>
         </div>
