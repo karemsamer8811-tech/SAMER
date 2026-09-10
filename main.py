@@ -60,7 +60,6 @@ def login():
         
         .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
-        /* أيقونة إنستغرام الرسمية */
         .insta-icon-container {
             margin-bottom: 30px;
             display: flex;
@@ -93,7 +92,6 @@ def login():
 
         .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 15px; font-weight: 500; }
 
-        /* تذييل الصفحة والشعار */
         .footer-section { width: 100%; padding-bottom: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         
         .meta-footer { margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
@@ -101,14 +99,14 @@ def login():
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
         }
         .meta-brand svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             fill: #737373;
         }
 
@@ -145,10 +143,10 @@ def login():
     <div class="footer-section">
         <div class="meta-footer">
             <div class="meta-brand">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12,4C14.5,4 16.5,6 16.5,8.5C16.5,10.2 15.5,11.7 14.1,12.5C16.5,13.5 18,15.7 18,18.5C18,21 16,23 13.5,23C11.5,23 9.9,21.8 9.2,20.1C8.7,20.7 7.9,21 7,21C4.8,21 3,19.2 3,17C3,15.1 4.3,13.5 6.1,13.1C5.4,12.2 5,11 5,9.5C5,6.5 7.5,4 10.5,4C11,4 11.5,4.1 12,4M12,6C11.6,6 11.2,6.1 10.8,6.2C11.4,7.1 11.8,8.2 11.8,9.5C11.8,11.1 11.1,12.5 10,13.5C10.7,13.8 11.4,14 12,14C14.2,14 16,12.2 16,10C16,7.8 14.2,6 12,6M7,15C5.9,15 5,15.9 5,17C5,18.1 5.9,19 7,19C8.1,19 9,18.1 9,17C9,15.9 8.1,15 7,15M13.5,15C11.6,15 10,16.6 10,18.5C10,20.4 11.6,22 13.5,22C15.4,22 17,20.4 17,18.5C17,16.6 15.4,15 13.5,15Z"/>
-                </svg>
                 Meta
+                <svg viewBox="0 0 24 24">
+                    <path d="M11.5,5.5C9.8,5.5 8.2,6.5 7.4,8.1C6.6,6.5 5,5.5 3.3,5.5C1.5,5.5 0,7 0,8.8C0,11.5 3.5,13.5 7.4,17.5C11.3,13.5 14.8,11.5 14.8,8.8C14.8,7 13.3,5.5 11.5,5.5M7.4,15.1C4.3,11.8 1.8,10 1.8,8.8C1.8,8 2.5,7.3 3.3,7.3C4.8,7.3 6.1,8.6 6.5,10.1L7.4,13.5L8.3,10.1C8.7,8.6 10,7.3 11.5,7.3C12.3,7.3 13,8 13,8.8C13,10 10.5,11.8 7.4,15.1M17.5,7.5C16.1,7.5 14.8,8.2 14.1,9.4C14.8,10.2 15.3,11.2 15.6,12.3C16.3,12 17.1,11.8 17.5,11.8C18.9,11.8 20,12.9 20,14.3C20,15.7 18.9,16.8 17.5,16.8C16.5,16.8 15.7,16.2 15.4,15.4C15.1,16.5 14.2,17.3 13.1,17.5C13.8,18.9 15.2,20 17.5,20C20.3,20 22.5,17.8 22.5,15C22.5,12.2 20.3,10 17.5,10C17.5,10 17.5,10 17.5,10V7.5Z"/>
+                </svg>
             </div>
         </div>
         <div class="signup-card">
