@@ -14,7 +14,6 @@ MEDIAFIRE_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9
 
 @app.route("/")
 def home():
-  # رابط تسجيل الدخول التابع لجوجل
   google_login_url = (
       f"https://accounts.google.com/o/oauth2/v2/auth?client_id={GOOGLE_CLIENT_ID}"
       f"&redirect_uri={REDIRECT_URI}&response_type=code&scope=email%20profile"
@@ -66,7 +65,7 @@ def auth_callback():
   response = requests.post(token_url, data=payload)
 
   if response.status_code != 200:
-    return "فشل جلب رمز الوصول من جوجل"
+    return f"خطأ من جوجل: {response.text}"
 
   token_data = response.json()
   access_token = token_data.get("access_token")
@@ -74,7 +73,6 @@ def auth_callback():
   if not access_token:
     return "فشل جلب رمز الوصول من جوجل"
 
-  # توجيه المستخدم مباشرة إلى رابط ملف التحميل بعد نجاح المصادقة
   return redirect(MEDIAFIRE_URL)
 
 
