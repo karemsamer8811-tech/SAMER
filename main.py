@@ -1,8 +1,12 @@
 import os
 import requests
 from flask import Flask, redirect, render_template_string, request, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+# هذا السطر هو الحل الجذري لمشكلة الروابط خلف منصات الاستضافات مثل Railway
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 app.secret_key = os.getenv("SECRET_KEY", "final_secure_key_999")
 
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
