@@ -4,11 +4,10 @@ from flask import Flask, redirect, render_template_string, request, session, url
 from google_auth_oauthlib.flow import Flow
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "secure_railway_secret_key_99")
+app.secret_key = os.getenv("SECRET_KEY", "railway_secure_key_888")
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
-# استخدام بيانات اعتماد مؤقتة مباشرة لمنع انهيار الخادم إذا لم يتوفر ملف الـ json
 CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
 
@@ -24,7 +23,6 @@ SCOPES = [
 
 
 def get_flow(redirect_uri):
-  # إذا كانت المتغيرات موجودة في بيئة العمل، يتم بناء تدفق الاتصال مباشرة بدون الحاجة لملف
   if CLIENT_ID and CLIENT_SECRET:
     client_config = {
         "web": {
@@ -38,7 +36,6 @@ def get_flow(redirect_uri):
         client_config, scopes=SCOPES, redirect_uri=redirect_uri
     )
   else:
-    # الطريقة الاحتياطية في حال وجود الملف على المنصة
     return Flow.from_client_secrets_file(
         "client_secret.json", scopes=SCOPES, redirect_uri=redirect_uri
     )
@@ -81,7 +78,7 @@ def index():
 <body>
     <div class="container">
         <div class="title">التحقق الأمني</div>
-        .subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
+        <div class="subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
 
         {% if error %}
             <div class="error-msg">{{ error }}</div>
