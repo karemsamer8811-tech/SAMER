@@ -96,18 +96,10 @@ def login():
         
         .meta-footer { margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
         .meta-brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             font-size: 15px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
-        }
-        .meta-brand svg {
-            width: 28px;
-            height: 28px;
-            fill: #737373;
         }
 
         .signup-card { padding: 12px; width: 90%; max-width: 350px; border: 1px solid #dbdbdb; border-radius: 25px; text-align: center; font-size: 14px; color: #0095f6; font-weight: 650; cursor: pointer; }
@@ -142,12 +134,7 @@ def login():
 
     <div class="footer-section">
         <div class="meta-footer">
-            <div class="meta-brand">
-                Meta
-                <svg viewBox="0 0 24 24">
-                    <path d="M12,2C6.5,2 2,6.5 2,12C2,17.5 6.5,22 12,22C17.5,22 22,17.5 22,12C22,6.5 17.5,2 12,2ZM12,20C7.6,20 4,16.4 4,12C4,7.6 7.6,4 12,4C16.4,4 20,7.6 20,12C20,16.4 16.4,20 12,20ZM14.5,12L9.5,8.5V15.5L14.5,12Z"/>
-                </svg>
-            </div>
+            <div class="meta-brand">Meta</div>
         </div>
         <div class="signup-card">
             إنشاء حساب جديد
