@@ -44,12 +44,10 @@ def login():
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
         body { background: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
         
-        .login-card {
+        .login-container {
             width: 100%;
-            max-width: 450px;
-            padding: 40px;
-            border: 1px solid #dadce0;
-            border-radius: 8px;
+            max-width: 400px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -75,7 +73,7 @@ def login():
 
         .subtitle { font-size: 16px; color: #5f6368; margin-bottom: 30px; }
 
-        .error-msg { color: #d93025; font-size: 13px; margin-bottom: 15px; width: 100%; text-align: right; }
+        .error-msg { color: #d93025; font-size: 13px; margin-bottom: 15px; width: 100%; text-align: right; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
 
         .input-group { width: 100%; margin-bottom: 15px; }
         .input-group input {
@@ -105,7 +103,7 @@ def login():
     </style>
 </head>
 <body>
-    <div class="login-card">
+    <div class="login-container">
         <div class="google-logo">
             <span>
                 <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
