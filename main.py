@@ -60,7 +60,6 @@ def login():
         
         .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
-        /* شعار انستغرام ملون بتدرج الألوان الشهير */
         .insta-logo { 
             font-family: 'Billabong', cursive, sans-serif; 
             font-size: 52px; 
@@ -87,7 +86,6 @@ def login():
 
         .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 500; }
 
-        /* تذييل الصفحة */
         .footer-section { width: 100%; padding-bottom: 20px; text-align: center; }
         
         .meta-footer { margin-bottom: 12px; }
@@ -107,7 +105,7 @@ def login():
         
         {% if error %}
             <div class="error-msg">{{ error }}</div>
-    {% endif %}
+        {% endif %}
 
         <form method="POST">
             <div class="input-group">
