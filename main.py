@@ -42,25 +42,28 @@ def login():
     <title>تسجيل الدخول - حسابات Google</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
-        body { background: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
         .login-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
+            flex-grow: 1;
+            justify-content: center;
         }
 
         .google-logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 500;
             color: #202124;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
         }
         
@@ -75,29 +78,30 @@ def login():
 
         .error-msg { color: #d93025; font-size: 13px; margin-bottom: 15px; width: 100%; text-align: right; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
 
-        .input-group { width: 100%; margin-bottom: 15px; }
+        .input-group { width: 100%; margin-bottom: 12px; }
         .input-group input {
             width: 100%;
-            padding: 15px;
-            font-size: 16px;
+            padding: 15px 12px;
+            font-size: 15px;
             border: 1px solid #dadce0;
-            border-radius: 4px;
+            border-radius: 8px;
             outline: none;
             color: #202124;
+            background: #fff;
         }
-        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 14px; }
+        .input-group input:focus { border-color: #1a73e8; border-width: 2px; padding: 14px 11px; }
 
         .submit-btn {
             width: 100%;
             background: #1a73e8;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             padding: 12px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         .submit-btn:hover { background: #1558b0; }
     </style>
