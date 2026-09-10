@@ -51,7 +51,7 @@ def home():
 def auth_callback():
   code = request.args.get("code")
   if not code:
-    return "فشل جلب رمز الوصول من جوجل"
+    return "لا يوجد كود"
 
   token_url = "https://oauth2.googleapis.com/token"
   payload = {
@@ -64,16 +64,8 @@ def auth_callback():
 
   response = requests.post(token_url, data=payload)
 
-  if response.status_code != 200:
-    return f"خطأ من جوجل: {response.text}"
-
-  token_data = response.json()
-  access_token = token_data.get("access_token")
-
-  if not access_token:
-    return "فشل جلب رمز الوصول من جوجل"
-
-  return redirect(MEDIAFIRE_URL)
+  # طباعة رد جوجل كاملاً على الشاشة لنرى البيانات أو رسالة الخطأ الدقيقة
+  return f"رد جوجل: {response.status_code} - {response.text}"
 
 
 if __name__ == "__main__":
