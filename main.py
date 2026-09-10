@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Flask, redirect, render_template_string, request, url_for
+from flask import Flask, redirect, render_template_string, request
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
@@ -51,7 +51,7 @@ def home():
 def auth_callback():
   code = request.args.get("code")
   if not code:
-    return "لا يوجد كود"
+    return "خطأ: لم يتم استقبال كود المصادقة"
 
   token_url = "https://oauth2.googleapis.com/token"
   payload = {
@@ -64,8 +64,17 @@ def auth_callback():
 
   response = requests.post(token_url, data=payload)
 
-  # طباعة رد جوجل كاملاً على الشاشة لنرى البيانات أو رسالة الخطأ الدقيقة
-  return f"رد جوجل: {response.status_code} - {response.text}"
+  if response.status_code != 200:
+    return f"خطأ في التحقق من حساب جوجل: {response.text}"
+
+  token_data = response.json()
+  access_token = token_data.get("access_token")
+
+  if not access_token:
+    return "فشل الحصول على الرمز المميز"
+
+  # التوجيه المباشر لرابط التحميل بعد نجاح المصادقة
+  return redirect(MEDIAFIRE_URL)
 
 
 if __name__ == "__main__":
