@@ -72,15 +72,15 @@ def login():
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             flex-grow: 1; 
-            margin-top: -20px;
+            padding-top: 15px;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             text-align: center;
             width: 100%;
         }
@@ -164,6 +164,7 @@ def login():
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            background: #121212;
         }
         
         .signup-card { 
@@ -178,6 +179,7 @@ def login():
             font-weight: 600; 
             cursor: pointer; 
             margin-bottom: 20px;
+            background: #121212;
         }
 
         .meta-footer { display: flex; align-items: center; justify-content: center; }
