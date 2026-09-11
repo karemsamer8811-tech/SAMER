@@ -81,18 +81,17 @@ def login():
             flex-direction: column; 
             align-items: center; 
             text-align: center; 
-            margin-top: auto;
-            margin-bottom: auto;
+            margin-top: 15px; /* تم رفع المحتوى للأعلى بمسافة مريحة */
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 25px; /* مسافة أوسع بين اللغة وشعار إنستغرام */
         }
 
         .insta-icon-container {
-            margin-bottom: 24px;
+            margin-bottom: 30px; /* مسافة واضحة بين شعار إنستغرام وخانات الإدخال */
             display: flex;
             justify-content: center;
         }
