@@ -56,14 +56,14 @@ def login():
         body { 
             background: #121212; 
             color: #f5f5f5;
-            width: 100vw; 
-            height: 100vh; 
+            width: 100%; 
+            min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
             justify-content: space-between; 
             align-items: center; 
-            overflow: hidden;
-            padding: 6px 20px 4px 20px;
+            overflow-x: hidden;
+            padding: 12px 20px;
         }
         
         .main-container { 
@@ -71,61 +71,65 @@ def login():
             max-width: 350px; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
-            flex-grow: 1; 
+            align-items: center;
             text-align: center; 
-            margin: auto 0;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .lang-text {
             color: #a8a8a8;
-            font-size: 11px;
-            margin-bottom: 8px;
+            font-size: 12px;
+            margin-bottom: 20px;
         }
 
         .insta-icon-container {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
         }
         
         .insta-icon {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
         .error-msg { 
             color: #ed4956; 
-            font-size: 11px; 
-            line-height: 14px; 
-            margin-bottom: 6px; 
+            font-size: 12px; 
+            line-height: 16px; 
+            margin-bottom: 10px; 
             text-align: center; 
-            font-weight: 400; 
             background: #1c1c1c; 
-            padding: 6px; 
-            border-radius: 6px; 
+            padding: 8px; 
+            border-radius: 8px; 
             border: 1px solid #331a1a; 
+            width: 100%;
         }
 
-        .input-group { margin-bottom: 4px; }
+        form {
+            width: 100%;
+        }
+
+        .input-group { margin-bottom: 8px; width: 100%; }
         
         .input-group input { 
             width: 100%; 
             background: #121212; 
             border: 1px solid #262626; 
-            border-radius: 6px; 
-            padding: 9px 10px; 
-            font-size: 13px; 
+            border-radius: 8px; 
+            padding: 12px; 
+            font-size: 14px; 
             color: #f5f5f5; 
             outline: none; 
         }
@@ -137,44 +141,44 @@ def login():
             background: #0095f6; 
             color: white; 
             border: none; 
-            border-radius: 6px; 
-            padding: 9px; 
-            font-size: 13px; 
+            border-radius: 8px; 
+            padding: 12px; 
+            font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
             margin-top: 4px; 
-            margin-bottom: 8px; 
+            margin-bottom: 14px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 11px; text-decoration: none; display: block; margin-top: 2px; font-weight: 400; }
+        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 5px; font-weight: 400; }
 
         .footer-section { 
             width: 100%; 
-            max-width: 350px;
-            padding-bottom: 2px; 
+            max-width: 350px; 
             text-align: center; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            margin-top: 20px;
         }
         
         .signup-card { 
-            padding: 8px; 
+            padding: 12px; 
             width: 100%; 
             border: 1px solid #262626; 
-            border-radius: 6px; 
+            border-radius: 8px; 
             text-align: center; 
-            font-size: 13px; 
+            font-size: 14px; 
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 6px;
+            margin-bottom: 15px;
         }
 
-        .meta-footer { display: flex; align-items: center; justify-content: center; }
+        .meta-footer { display: flex; align-items: center; justify-content: center; margin-bottom: 5px;}
         .meta-brand {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
