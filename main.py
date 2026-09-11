@@ -62,29 +62,34 @@ def login():
             flex-direction: column; 
             justify-content: space-between; 
             align-items: center; 
+            overflow: hidden;
         }
         
         .main-container { 
             width: 100%; 
             max-width: 350px; 
-            padding: 5px 20px 20px 20px; 
+            padding: 0 20px; 
             display: flex; 
             flex-direction: column; 
-            justify-content: center; 
+            align-items: center;
+            justify-content: center;
             flex-grow: 1; 
-            text-align: center; 
+            margin-top: -20px;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+            width: 100%;
         }
 
         .insta-icon-container {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
+            width: 100%;
         }
         
         .insta-icon {
@@ -113,9 +118,14 @@ def login():
             padding: 12px; 
             border-radius: 8px; 
             border: 1px solid #331a1a; 
+            width: 100%;
         }
 
-        .input-group { margin-bottom: 6px; }
+        form {
+            width: 100%;
+        }
+
+        .input-group { margin-bottom: 6px; width: 100%; }
         
         .input-group input { 
             width: 100%; 
@@ -145,7 +155,7 @@ def login():
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 5px; font-weight: 400; }
+        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 5px; font-weight: 400; text-align: center; width: 100%; }
 
         .footer-section { 
             width: 100%; 
