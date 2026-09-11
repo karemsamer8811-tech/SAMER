@@ -62,7 +62,7 @@ def login():
             justify-content: space-between; 
             align-items: center; 
             overflow: hidden;
-            padding: 12px 20px 20px 20px;
+            padding: 15px 20px 20px 20px;
         }
         
         .page-wrapper {
@@ -75,23 +75,22 @@ def login():
             align-items: center;
         }
 
-        .main-box { 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            margin-top: 15px; /* تم رفع المحتوى للأعلى بمسافة مريحة */
+        /* القسم العلوي (اللغة والشعار مثبتين بالأعلى) */
+        .top-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 5px;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 25px; /* مسافة أوسع بين اللغة وشعار إنستغرام */
+            margin-bottom: 20px;
         }
 
         .insta-icon-container {
-            margin-bottom: 30px; /* مسافة واضحة بين شعار إنستغرام وخانات الإدخال */
             display: flex;
             justify-content: center;
         }
@@ -109,6 +108,15 @@ def login():
             width: 25px;
             height: 25px;
             fill: white;
+        }
+
+        /* القسم الاوسط (الحقول وزر الدخول متوسّطين بدقة) */
+        .middle-section { 
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
         }
 
         .error-msg { 
@@ -160,6 +168,7 @@ def login():
 
         .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 4px; font-weight: 400; }
 
+        /* القسم السفلي (إنشاء حساب و Meta) */
         .footer-section { 
             width: 100%; 
             text-align: center; 
@@ -192,9 +201,9 @@ def login():
 </head>
 <body>
     <div class="page-wrapper">
-        <div class="main-box">
+        <!-- القسم العلوي: اللغة والشعار -->
+        <div class="top-section">
             <div class="lang-text">العربية</div>
-            
             <div class="insta-icon-container">
                 <div class="insta-icon">
                     <svg viewBox="0 0 24 24">
@@ -202,7 +211,10 @@ def login():
                     </svg>
                 </div>
             </div>
-            
+        </div>
+        
+        <!-- القسم الأوسط: الحقول وأزرار الدخول في المنتصف تماماً -->
+        <div class="middle-section">
             {% if error %}
                 <div class="error-msg">{{ error }}</div>
             {% endif %}
@@ -220,6 +232,7 @@ def login():
             <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
         </div>
 
+        <!-- القسم السفلي: إنشاء حساب و Meta -->
         <div class="footer-section">
             <div class="signup-card">
                 إنشاء حساب جديد
