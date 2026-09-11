@@ -53,9 +53,9 @@ def login():
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        /* الوضع الليلي الحقيقي تماماً مثل الصورة */
+        /* تعديل الخلفية لتصبح مطابقة تماماً للدرجة الحقيقية (أفتح قليلاً من الأسود المطلق) */
         body { 
-            background: #000000; 
+            background: #121212; 
             color: #f5f5f5;
             width: 100vw; 
             height: 100vh; 
@@ -88,19 +88,19 @@ def login():
             justify-content: center;
         }
         
-        /* شعار انستغرام المتدرج بدقة */
+        /* تصغير حجم الشعار الملون ليطابق الشكل المطلوب تماماً */
         .insta-icon {
-            width: 75px;
-            height: 75px;
+            width: 58px;
+            height: 58px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 20px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 44px;
-            height: 44px;
+            width: 32px;
+            height: 32px;
             fill: white;
         }
 
@@ -119,11 +119,10 @@ def login():
 
         .input-group { margin-bottom: 6px; }
         
-        /* تصميم الحقول الداكنة الخاصة بالوضع الليلي */
         .input-group input { 
             width: 100%; 
-            background: #121212; 
-            border: 1px solid #262626; 
+            background: #262626; 
+            border: 1px solid #363636; 
             border-radius: 8px; 
             padding: 14px 12px; 
             font-size: 14px; 
@@ -163,7 +162,7 @@ def login():
             padding: 12px; 
             width: 90%; 
             max-width: 350px; 
-            border: 1px solid #262626; 
+            border: 1px solid #363636; 
             border-radius: 8px; 
             text-align: center; 
             font-size: 14px; 
