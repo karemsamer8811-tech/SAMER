@@ -98,15 +98,15 @@ def login():
         }
         
         .insta-icon {
-            width: 60px;
-            height: 60px;
+            width: 48px; /* تصغير حجم الحاوية والشعار قليلاً */
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
         }
 
         /* القسم الأوسط (الحقول وزر الدخول) */
