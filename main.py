@@ -63,7 +63,7 @@ def login():
             justify-content: space-between; 
             align-items: center; 
             overflow: hidden;
-            padding: 8px 20px 6px 20px;
+            padding: 6px 20px 4px 20px;
         }
         
         .main-container { 
@@ -79,53 +79,53 @@ def login():
 
         .lang-text {
             color: #a8a8a8;
-            font-size: 12px;
-            margin-bottom: 12px;
+            font-size: 11px;
+            margin-bottom: 8px;
         }
 
         .insta-icon-container {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: center;
         }
         
         .insta-icon {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             fill: white;
         }
 
         .error-msg { 
             color: #ed4956; 
-            font-size: 12px; 
-            line-height: 16px; 
-            margin-bottom: 8px; 
+            font-size: 11px; 
+            line-height: 14px; 
+            margin-bottom: 6px; 
             text-align: center; 
             font-weight: 400; 
             background: #1c1c1c; 
-            padding: 8px; 
-            border-radius: 8px; 
+            padding: 6px; 
+            border-radius: 6px; 
             border: 1px solid #331a1a; 
         }
 
-        .input-group { margin-bottom: 5px; }
+        .input-group { margin-bottom: 4px; }
         
         .input-group input { 
             width: 100%; 
             background: #121212; 
             border: 1px solid #262626; 
-            border-radius: 8px; 
-            padding: 10px 12px; 
-            font-size: 14px; 
+            border-radius: 6px; 
+            padding: 9px 10px; 
+            font-size: 13px; 
             color: #f5f5f5; 
             outline: none; 
         }
@@ -137,17 +137,17 @@ def login():
             background: #0095f6; 
             color: white; 
             border: none; 
-            border-radius: 8px; 
-            padding: 10px; 
-            font-size: 14px; 
+            border-radius: 6px; 
+            padding: 9px; 
+            font-size: 13px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 5px; 
-            margin-bottom: 10px; 
+            margin-top: 4px; 
+            margin-bottom: 8px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 2px; font-weight: 400; }
+        .forgot-pass { color: #f5f5f5; font-size: 11px; text-decoration: none; display: block; margin-top: 2px; font-weight: 400; }
 
         .footer-section { 
             width: 100%; 
@@ -160,21 +160,21 @@ def login():
         }
         
         .signup-card { 
-            padding: 10px; 
+            padding: 8px; 
             width: 100%; 
             border: 1px solid #262626; 
-            border-radius: 8px; 
+            border-radius: 6px; 
             text-align: center; 
-            font-size: 14px; 
+            font-size: 13px; 
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .meta-footer { display: flex; align-items: center; justify-content: center; }
         .meta-brand {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
