@@ -72,23 +72,24 @@ def login():
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             flex-grow: 1; 
+            padding-top: 10px;
         }
 
         .top-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: -35px; /* رفع كلمة العربية والشعار للأعلى بشكل مستقل */
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
             width: 100%;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
             width: 100%;
         }
@@ -97,6 +98,7 @@ def login():
             display: flex;
             justify-content: center;
             width: 100%;
+            margin-bottom: 10px;
         }
         
         .insta-icon {
@@ -166,7 +168,7 @@ def login():
 
         .footer-section { 
             width: 100%; 
-            padding-bottom: 20px; 
+            padding-bottom: 15px; 
             text-align: center; 
             display: flex; 
             flex-direction: column; 
@@ -185,7 +187,7 @@ def login():
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             background: #121212;
         }
 
@@ -193,7 +195,7 @@ def login():
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 6px;
+            gap: 5px;
         }
         .meta-symbol {
             font-size: 16px;
