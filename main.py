@@ -74,7 +74,7 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي: تثبيت كلمة العربية وزيادة إزاحة الشعار للأسفل أكثر */
+        /* القسم العلوي: نزول أكثر للشعار وتكبر حجمه قليلاً */
         .top-section {
             width: 100%;
             display: flex;
@@ -93,22 +93,22 @@ def login():
         .logo-area {
             display: flex;
             justify-content: center;
-            margin-top: 65px; /* زيادة المسافة لي ينزل الشعار كمان شوي بشكل دقيق */
+            margin-top: 75px; /* زيادة مسافة النزول أكثر قليلاً */
             width: 100%;
         }
         
         .insta-icon {
-            width: 46px;
-            height: 46px;
+            width: 52px;  /* تكبير حجم الشعار قليلاً */
+            height: 52px; /* تكبير حجم الشعار قليلاً */
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 25px;
-            height: 25px;
+            width: 28px;  /* تكبير الأيقونة الداخلية تناسباً مع الحجم الجديد */
+            height: 28px; /* تكبير الأيقونة الداخلية تناسباً مع الحجم الجديد */
             fill: white;
         }
 
@@ -203,7 +203,7 @@ def login():
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- القسم العلوي: العربية في الأعلى والشعار نازل عنها بالمسافة المطلوبة -->
+        <!-- القسم العلوي: العربية في الأعلى والشعار نازل ومكبر قليلاً -->
         <div class="top-section">
             <div class="lang-area">العربية</div>
             <div class="logo-area">
