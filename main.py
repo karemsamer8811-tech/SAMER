@@ -56,19 +56,22 @@ def login():
         body { 
             background: #121212; 
             color: #f5f5f5;
-            min-height: 100dvh;
+            height: 100dvh;
             display: flex; 
-            justify-content: center; 
+            flex-direction: column;
+            justify-content: space-between; 
             align-items: center; 
-            overflow-x: hidden;
-            padding: 10px 20px;
+            overflow: hidden;
+            padding: 12px 20px 20px 20px;
         }
         
         .page-wrapper {
             width: 100%;
             max-width: 350px;
+            height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -78,24 +81,25 @@ def login():
             flex-direction: column; 
             align-items: center; 
             text-align: center; 
-            margin-bottom: 12px;
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .insta-icon-container {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
         }
         
         .insta-icon {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
             border-radius: 12px;
             display: flex;
@@ -103,8 +107,8 @@ def login():
             justify-content: center;
         }
         .insta-icon svg {
-            width: 26px;
-            height: 26px;
+            width: 25px;
+            height: 25px;
             fill: white;
         }
 
@@ -112,7 +116,7 @@ def login():
             color: #ed4956; 
             font-size: 12px; 
             line-height: 16px; 
-            margin-bottom: 10px; 
+            margin-bottom: 8px; 
             text-align: center; 
             background: #1c1c1c; 
             padding: 8px; 
@@ -175,7 +179,7 @@ def login():
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .meta-footer { display: flex; align-items: center; justify-content: center; }
