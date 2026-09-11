@@ -72,37 +72,37 @@ def login():
             flex-direction: column;
             align-items: center;
             flex: 1;
-            padding: 5px 20px 0 20px;
+            padding: 15px 20px 0 20px;
             justify-content: center;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 25px;
             text-align: center;
             width: 100%;
         }
 
         .insta-icon-container {
-            margin-bottom: 15px;
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
             width: 100%;
         }
         
         .insta-icon {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 12px;
+            border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             fill: white;
         }
 
@@ -110,10 +110,10 @@ def login():
             color: #ed4956; 
             font-size: 12px; 
             line-height: 16px; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
             text-align: center; 
             background: #1c1c1c; 
-            padding: 8px; 
+            padding: 10px; 
             border-radius: 8px; 
             border: 1px solid #331a1a; 
             width: 100%;
@@ -130,8 +130,8 @@ def login():
             background: #121212; 
             border: 1px solid #363636; 
             border-radius: 8px; 
-            padding: 11px 12px; 
-            font-size: 13px; 
+            padding: 14px 12px; 
+            font-size: 14px; 
             color: #f5f5f5; 
             outline: none; 
         }
@@ -144,24 +144,24 @@ def login():
             color: white; 
             border: none; 
             border-radius: 8px; 
-            padding: 11px; 
+            padding: 12px; 
             font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 6px; 
-            margin-bottom: 10px; 
+            margin-top: 8px; 
+            margin-bottom: 15px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; font-weight: 400; text-align: center; width: 100%; margin-bottom: 16px; }
+        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; font-weight: 400; text-align: center; width: 100%; margin-bottom: 25px; }
 
         .signup-card { 
-            padding: 11px; 
+            padding: 13px; 
             width: 100%; 
             border: 1px solid #363636; 
             border-radius: 8px; 
             text-align: center; 
-            font-size: 13px; 
+            font-size: 14px; 
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
@@ -170,7 +170,7 @@ def login():
 
         .footer-section { 
             width: 100%; 
-            padding: 10px 0 15px 0; 
+            padding-bottom: 20px; 
             text-align: center; 
             display: flex; 
             justify-content: center; 
@@ -183,18 +183,18 @@ def login():
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 4px;
-        }
-        .meta-symbol {
-            font-size: 15px;
-            color: #737373;
-            font-weight: bold;
+            gap: 5px;
         }
         .meta-brand {
             font-size: 13px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
+        }
+        .meta-symbol {
+            font-size: 15px;
+            color: #737373;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -233,8 +233,8 @@ def login():
 
     <div class="footer-section">
         <div class="meta-footer">
-            <span class="meta-symbol">∞</span>
             <div class="meta-brand">Meta</div>
+            <span class="meta-symbol">∞</span>
         </div>
     </div>
 </body>
