@@ -74,7 +74,7 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي: نزول أكثر للشعار وتكبر حجمه قليلاً */
+        /* القسم العلوي: نزول إضافي وتعديل الحجم والشعار الرسمي */
         .top-section {
             width: 100%;
             display: flex;
@@ -93,22 +93,23 @@ def login():
         .logo-area {
             display: flex;
             justify-content: center;
-            margin-top: 75px; /* زيادة مسافة النزول أكثر قليلاً */
+            margin-top: 85px; /* نزول الشعار مسافة إضافية دقيقة */
             width: 100%;
         }
         
         .insta-icon {
-            width: 52px;  /* تكبير حجم الشعار قليلاً */
-            height: 52px; /* تكبير حجم الشعار قليلاً */
+            width: 54px;
+            height: 54px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 14px;
+            border-radius: 16px; /* انحناء الزوايا الرسمي للتطبيق */
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .insta-icon svg {
-            width: 28px;  /* تكبير الأيقونة الداخلية تناسباً مع الحجم الجديد */
-            height: 28px; /* تكبير الأيقونة الداخلية تناسباً مع الحجم الجديد */
+            width: 30px;
+            height: 30px;
             fill: white;
         }
 
@@ -203,7 +204,7 @@ def login():
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- القسم العلوي: العربية في الأعلى والشعار نازل ومكبر قليلاً -->
+        <!-- القسم العلوي -->
         <div class="top-section">
             <div class="lang-area">العربية</div>
             <div class="logo-area">
