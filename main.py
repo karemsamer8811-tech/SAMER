@@ -75,7 +75,7 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي: تثبيت مكان كلمة العربية وإنزال الشعار أسفلها بمسافة إضافية */
+        /* القسم العلوي */
         .top-section {
             width: 100%;
             display: flex;
@@ -87,13 +87,12 @@ def login():
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 0; /* تثبيت مكان كلمة العربية في الأعلى */
         }
 
         .insta-icon-container {
             display: flex;
             justify-content: center;
-            margin-top: 18px; /* نزول الشعار إضافياً للأسفل بمسافة مثالية */
+            margin-top: 28px; /* إنزال الشعار أكثر للأسفل بشكل مستقل تماماً عن كلمة العربية */
         }
         
         .insta-icon {
@@ -111,7 +110,7 @@ def login():
             fill: white;
         }
 
-        /* القسم الأوسط (الحقول وزر الدخول في المنتصف بدقة) */
+        /* القسم الأوسط */
         .middle-section { 
             width: 100%; 
             display: flex; 
