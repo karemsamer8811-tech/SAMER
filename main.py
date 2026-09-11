@@ -75,24 +75,25 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي: تم إنزال الشعار ليكون في مكان النقطة تماماً */
+        /* القسم العلوي: تثبيت مكان كلمة العربية وإنزال الشعار أسفلها بمسافة إضافية */
         .top-section {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 25px; 
+            padding-top: 5px; 
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 0; /* تثبيت مكان كلمة العربية في الأعلى */
         }
 
         .insta-icon-container {
             display: flex;
             justify-content: center;
+            margin-top: 18px; /* نزول الشعار إضافياً للأسفل بمسافة مثالية */
         }
         
         .insta-icon {
