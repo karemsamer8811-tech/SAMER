@@ -74,7 +74,7 @@ def login():
             align-items: center;
         }
 
-        /* القسم العلوي: تثبيت كلمة العربية وإنزال الشعار من خلال margin-top بدقة */
+        /* القسم العلوي: تثبيت كلمة العربية وزيادة إزاحة الشعار للأسفل أكثر */
         .top-section {
             width: 100%;
             display: flex;
@@ -93,7 +93,7 @@ def login():
         .logo-area {
             display: flex;
             justify-content: center;
-            margin-top: 45px; /* النزول المطلوب للشعار تماماً كما طلبته */
+            margin-top: 65px; /* زيادة المسافة لي ينزل الشعار كمان شوي بشكل دقيق */
             width: 100%;
         }
         
@@ -203,7 +203,7 @@ def login():
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- القسم العلوي: العربية في الأعلى والشعار نازل تحتها -->
+        <!-- القسم العلوي: العربية في الأعلى والشعار نازل عنها بالمسافة المطلوبة -->
         <div class="top-section">
             <div class="lang-area">العربية</div>
             <div class="logo-area">
