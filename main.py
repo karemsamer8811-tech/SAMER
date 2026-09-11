@@ -67,7 +67,7 @@ def login():
         .main-container { 
             width: 100%; 
             max-width: 350px; 
-            padding: 10px 20px 20px 20px; 
+            padding: 5px 20px 20px 20px; 
             display: flex; 
             flex-direction: column; 
             justify-content: center; 
@@ -78,11 +78,11 @@ def login():
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .insta-icon-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
         }
