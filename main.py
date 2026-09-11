@@ -72,37 +72,37 @@ def login():
             flex-direction: column;
             align-items: center;
             flex: 1;
-            padding: 10px 20px 0 20px;
+            padding: 5px 20px 0 20px;
             justify-content: center;
         }
 
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             text-align: center;
             width: 100%;
         }
 
         .insta-icon-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: center;
             width: 100%;
         }
         
         .insta-icon {
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            border-radius: 13px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .insta-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
@@ -110,10 +110,10 @@ def login():
             color: #ed4956; 
             font-size: 12px; 
             line-height: 16px; 
-            margin-bottom: 12px; 
+            margin-bottom: 10px; 
             text-align: center; 
             background: #1c1c1c; 
-            padding: 10px; 
+            padding: 8px; 
             border-radius: 8px; 
             border: 1px solid #331a1a; 
             width: 100%;
@@ -130,7 +130,7 @@ def login():
             background: #121212; 
             border: 1px solid #363636; 
             border-radius: 8px; 
-            padding: 12px; 
+            padding: 11px 12px; 
             font-size: 13px; 
             color: #f5f5f5; 
             outline: none; 
@@ -148,12 +148,12 @@ def login():
             font-size: 14px; 
             font-weight: 600; 
             cursor: pointer; 
-            margin-top: 8px; 
-            margin-bottom: 12px; 
+            margin-top: 6px; 
+            margin-bottom: 10px; 
         }
         .submit-btn:hover { background: #1877f2; }
 
-        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; font-weight: 400; text-align: center; width: 100%; margin-bottom: 24px; }
+        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; font-weight: 400; text-align: center; width: 100%; margin-bottom: 16px; }
 
         .signup-card { 
             padding: 11px; 
@@ -170,12 +170,13 @@ def login():
 
         .footer-section { 
             width: 100%; 
-            padding-bottom: 15px; 
+            padding: 10px 0 15px 0; 
             text-align: center; 
             display: flex; 
             justify-content: center; 
             align-items: center; 
             background: #121212;
+            flex-shrink: 0;
         }
         
         .meta-footer { 
