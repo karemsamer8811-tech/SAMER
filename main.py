@@ -88,11 +88,11 @@ def login():
         .lang-text {
             color: #a8a8a8;
             font-size: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 18px;
         }
 
         .insta-icon-container {
-            margin-bottom: 15px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: center;
         }
